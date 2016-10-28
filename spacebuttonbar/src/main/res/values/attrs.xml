@@ -2,6 +2,7 @@
 <resources>
     <declare-styleable name="SpaceButtonView">
         <attr name="icon" format="reference" />
+        <attr name="viewPagerID" format="reference" />
     </declare-styleable>
 
 </resources>

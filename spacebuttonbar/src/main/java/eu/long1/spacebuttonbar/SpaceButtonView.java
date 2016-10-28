@@ -1,20 +1,26 @@
 package eu.long1.spacebuttonbar;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.os.Build;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 
-public class SpaceButtonView extends LinearLayout {
+public class SpaceButtonView extends TabLayout {
 
 
     TextView actionLeftText;
@@ -27,46 +33,19 @@ public class SpaceButtonView extends LinearLayout {
         super(context);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+
     public SpaceButtonView(Context context, AttributeSet attrs) {
         super(context, attrs);
-
-        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.SpaceButtonView, 0, 0);
-        int buttonIcon = a.getResourceId(R.styleable.SpaceButtonView_icon, R.drawable.ic_button);
-        a.recycle();
-
-        setOrientation(LinearLayout.HORIZONTAL);
-        setGravity(Gravity.CENTER);
-
         setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
-
-        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        inflater.inflate(R.layout.space_button_layout, this, true);
-
-
-
-
-        //actionLeft = (TextView) ((LinearLayout) getChildAt(0)).getChildAt(0);
-        //button = (ImageView) mainLayout.getChildAt(1);
-        //actionRight = (TextView) getChildAt(2);
-
-        // button.setImageResource(buttonIcon);
-
-        setBackground(getResources().getDrawable(R.drawable.background));
+        setBackgroundResource(R.drawable.background);
     }
 
     public SpaceButtonView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    public SpaceButtonView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
-    }
 
-    public void setButtonImage(@DrawableRes int resource) {
-        button.setImageResource(resource);
-    }
+
 
 
 }

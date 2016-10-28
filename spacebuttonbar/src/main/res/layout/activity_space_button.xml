@@ -63,6 +63,7 @@
             android:layout_alignParentStart="true"
             android:layout_gravity="bottom"
             android:background="@android:color/transparent"
+            app:tabBackground="@android:color/transparent"
             app:tabGravity="fill"
             app:tabMode="fixed"
             app:viewPagerID="@id/viewpager" />

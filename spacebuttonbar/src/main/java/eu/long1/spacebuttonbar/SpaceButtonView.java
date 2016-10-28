@@ -22,13 +22,6 @@ import android.widget.TextView;
 
 public class SpaceButtonView extends TabLayout {
 
-
-    TextView actionLeftText;
-    ImageView actionLeftImage;
-    FloatingActionButton button;
-    TextView actionRightText;
-    ImageView actionRightImage;
-
     public SpaceButtonView(Context context) {
         super(context);
     }

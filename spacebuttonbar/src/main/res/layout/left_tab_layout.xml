@@ -12,6 +12,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Left action"
-        android:textColor="#b0bec5" />
+        android:textColor="#FFFFFF" />
 
 </LinearLayout>

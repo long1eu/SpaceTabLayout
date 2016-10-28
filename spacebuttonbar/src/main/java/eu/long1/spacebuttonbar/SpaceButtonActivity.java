@@ -54,11 +54,14 @@ public class SpaceButtonActivity extends AppCompatActivity implements ViewPager.
     private List<Integer> tabSize = new ArrayList<>();
     private List<Fragment> fragments;
 
-    private int currentPosition = 1;
+    private int currentPosition = 2;
 
     private View.OnClickListener leftActionOnClickListener;
     private View.OnClickListener centerActionOnClickListener;
     private View.OnClickListener rightActionOnClickListener;
+    private int leftButtonIcon = R.drawable.ic_left_action_selected;
+    private int centerButtonIcon = R.drawable.ic_center_action_selected;
+    private int rightButtonIcon = R.drawable.ic_right_action_selected;
 
 
     @Override
@@ -151,15 +154,15 @@ public class SpaceButtonActivity extends AppCompatActivity implements ViewPager.
             selectedTabLayout.setX(backgroundX);
             switch (position) {
                 case 0:
-                    actionButton.setImageResource(R.drawable.ic_left_action_selected);
+                    actionButton.setImageResource(leftButtonIcon);
                     actionButton.setOnClickListener(leftActionOnClickListener);
                     break;
                 case 1:
-                    actionButton.setImageResource(R.drawable.ic_center_action_selected);
+                    actionButton.setImageResource(centerButtonIcon);
                     actionButton.setOnClickListener(centerActionOnClickListener);
                     break;
                 case 2:
-                    actionButton.setImageResource(R.drawable.ic_right_action_selected);
+                    actionButton.setImageResource(rightButtonIcon);
                     actionButton.setOnClickListener(rightActionOnClickListener);
                     break;
             }
@@ -174,13 +177,13 @@ public class SpaceButtonActivity extends AppCompatActivity implements ViewPager.
             float x = 0;
             switch (position) {
                 case 0:
-                    x = tabSize / 2 + margin - 28;
+                    x = tabSize / 2 + margin - 42;
                     break;
                 case 1:
                     x = tabSize * 3 / 2 + 3 * margin - 42;
                     break;
                 case 2:
-                    x = tabSize * 5 / 2 + 5 * margin - 56;
+                    x = tabSize * 5 / 2 + 5 * margin - 42;
                     break;
             }
             return x;
@@ -228,7 +231,7 @@ public class SpaceButtonActivity extends AppCompatActivity implements ViewPager.
     public void onPageScrollStateChanged(int state) {
     }
 
-    public void setCurrentPosition(int currentPosition) {
+    private void setCurrentPosition(int currentPosition) {
         this.currentPosition = currentPosition;
     }
 
@@ -301,7 +304,7 @@ public class SpaceButtonActivity extends AppCompatActivity implements ViewPager.
     }
 
     public View getTabLayout() {
-        return tabLayout;
+        return tabView;
     }
 
     public void setTabBackgroundColor(@ColorRes int backgroundColor, @Nullable Context context) {
@@ -334,40 +337,43 @@ public class SpaceButtonActivity extends AppCompatActivity implements ViewPager.
         actionButton.setBackgroundColor(ContextCompat.getColor(this, backgroundColor));
     }
 
-    public void setLeftIcon(@DrawableRes int buttonIcon) {
-        ((ImageView) ((LinearLayout) getLeftView()).getChildAt(0)).setImageResource(buttonIcon);
+    public void setLeftIcon(@DrawableRes int leftButtonIcon) {
+        this.leftButtonIcon = leftButtonIcon;
+        ((ImageView) ((LinearLayout) getLeftView()).getChildAt(0)).setImageResource(leftButtonIcon);
     }
 
-    public void setCenterIcon(@DrawableRes int buttonIcon) {
-        ((ImageView) ((LinearLayout) getCenterView()).getChildAt(0)).setImageResource(buttonIcon);
+    public void setCenterIcon(@DrawableRes int centerButtonIcon) {
+        this.centerButtonIcon = centerButtonIcon;
+        ((ImageView) ((LinearLayout) getCenterView()).getChildAt(0)).setImageResource(centerButtonIcon);
     }
 
-    public void setRightIcon(@DrawableRes int buttonIcon) {
-        ((ImageView) ((LinearLayout) getRightView()).getChildAt(0)).setImageResource(buttonIcon);
+    public void setRightIcon(@DrawableRes int rightButtonIcon) {
+        this.rightButtonIcon = rightButtonIcon;
+        ((ImageView) ((LinearLayout) getRightView()).getChildAt(0)).setImageResource(rightButtonIcon);
     }
 
     public void setLeftText(String leftText) {
-        ((TextView) ((LinearLayout) getLeftView()).getChildAt(0)).setText(leftText);
+        ((TextView) ((LinearLayout) getLeftView()).getChildAt(1)).setText(leftText);
     }
 
     public void setCenterText(String centerText) {
-        ((TextView) ((LinearLayout) getCenterView()).getChildAt(0)).setText(centerText);
+        ((TextView) ((LinearLayout) getCenterView()).getChildAt(1)).setText(centerText);
     }
 
     public void setRightText(String rightText) {
-        ((TextView) ((LinearLayout) getRightView()).getChildAt(0)).setText(rightText);
+        ((TextView) ((LinearLayout) getRightView()).getChildAt(1)).setText(rightText);
     }
 
     public void setLeftText(@StringRes int leftText) {
-        ((TextView) ((LinearLayout) getLeftView()).getChildAt(0)).setText(leftText);
+        ((TextView) ((LinearLayout) getLeftView()).getChildAt(1)).setText(leftText);
     }
 
     public void setCenterText(@StringRes int centerText) {
-        ((TextView) ((LinearLayout) getCenterView()).getChildAt(0)).setText(centerText);
+        ((TextView) ((LinearLayout) getCenterView()).getChildAt(1)).setText(centerText);
     }
 
     public void setRightText(@StringRes int rightText) {
-        ((TextView) ((LinearLayout) getRightView()).getChildAt(0)).setText(rightText);
+        ((TextView) ((LinearLayout) getRightView()).getChildAt(1)).setText(rightText);
     }
 
 

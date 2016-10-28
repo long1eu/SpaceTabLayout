@@ -1,7 +1,7 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="#00CC00"
+    android:background="#ea80fc"
     android:layout_height="match_parent"
     tools:context="eu.long1.spacebuttombardemo.FragmentC">
 

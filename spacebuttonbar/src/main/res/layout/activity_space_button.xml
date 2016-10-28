@@ -11,26 +11,61 @@
         android:id="@+id/viewpager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@android:color/white">
+        android:background="@android:color/white" />
+
+    <RelativeLayout
+        android:id="@+id/tabLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <ImageView
+            android:id="@+id/backgroundImage2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:scaleType="center"
+            android:src="@drawable/background2" />
+
+
+        <RelativeLayout
+            android:id="@+id/selectedTabLayout"
+            android:layout_width="96dp"
+            android:layout_height="72dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true">
+
+            <ImageView
+                android:id="@+id/backgroundImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:scaleType="center"
+                android:src="@drawable/background" />
+
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/fab"
+                android:layout_width="@dimen/action_button_size"
+                android:layout_height="@dimen/action_button_size"
+                android:layout_centerInParent="true"
+                android:src="@drawable/ic_center_action_selected" />
+        </RelativeLayout>
+
 
         <eu.long1.spacebuttonbar.SpaceButtonView
-            android:id="@+id/sliding_tabs"
+            android:id="@+id/spaceTab"
             android:layout_width="match_parent"
             android:layout_height="72dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
             android:layout_gravity="bottom"
+            android:background="@android:color/transparent"
+            app:tabGravity="fill"
             app:tabMode="fixed"
             app:viewPagerID="@id/viewpager" />
-
-    </android.support.v4.view.ViewPager>
-
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="56dp"
-        android:layout_height="56dp"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_margin="8dp" />
-
+    </RelativeLayout>
 
 </RelativeLayout>

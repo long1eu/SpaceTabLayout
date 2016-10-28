@@ -37,15 +37,11 @@ public class SpaceButtonView extends TabLayout {
     public SpaceButtonView(Context context, AttributeSet attrs) {
         super(context, attrs);
         setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
-        setBackgroundResource(R.drawable.background);
     }
 
     public SpaceButtonView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
-
-
-
 
 
 }

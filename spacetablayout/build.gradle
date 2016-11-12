@@ -1,4 +1,29 @@
 apply plugin: 'com.android.library'
+apply plugin: 'maven-publish'
+
+ext {
+    bintrayRepo = 'spacetablayout'
+    bintrayName = 'spacetablayout'
+
+    publishedGroupId = 'eu.long1'
+    libraryName = 'SpaceTabLayout'
+    artifact = 'spacetablayout'
+
+    libraryDescription = 'A custom Tab Layout for Android'
+
+    siteUrl = 'https://github.com/thelong1EU/SpaceTabLayout'
+    gitUrl = 'https://github.com/thelong1EU/SpaceTabLayout.git'
+
+    libraryVersion = '1.0.0'
+
+    developerId = 'thelong1eu'
+    developerName = 'Lung Razvan'
+    developerEmail = 'home@long1.eu'
+
+    licenseName = 'The Apache Software License, Version 2.0'
+    licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+    allLicenses = ["Apache-2.0"]
+}
 
 android {
     compileSdkVersion 25
@@ -28,5 +53,9 @@ dependencies {
     })
     compile 'com.android.support:appcompat-v7:25.0.0'
     compile 'com.android.support:design:25.0.0'
+
     testCompile 'junit:junit:4.12'
 }
+
+apply from: 'installv1.gradle'
+apply from: 'bintrayv1.gradle'

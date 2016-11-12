@@ -19,12 +19,20 @@ android {
     }
 }
 
+repositories {
+    maven {
+        url  "http://dl.bintray.com/thelong1eu/spacetablayout"
+    }
+}
+
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile project(":spacebuttonbar")
+
+    //compile project(":spacetablayout")
+    compile 'eu.long1:spacetablayout:1.0.0'
     compile 'com.android.support:appcompat-v7:25.0.0'
     compile 'com.android.support:support-v4:25.0.0'
     testCompile 'junit:junit:4.12'

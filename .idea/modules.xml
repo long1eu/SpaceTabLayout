@@ -2,9 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/SpaceButtomBar.iml" filepath="$PROJECT_DIR$/SpaceButtomBar.iml" />
+      <module fileurl="file://$PROJECT_DIR$/SpaceTabLayout.iml" filepath="$PROJECT_DIR$/SpaceTabLayout.iml" />
       <module fileurl="file://$PROJECT_DIR$/demo/demo.iml" filepath="$PROJECT_DIR$/demo/demo.iml" />
-      <module fileurl="file://$PROJECT_DIR$/spacebuttonbar/spacebuttonbar.iml" filepath="$PROJECT_DIR$/spacebuttonbar/spacebuttonbar.iml" />
+      <module fileurl="file://$PROJECT_DIR$/spacetablayout/spacetablayout.iml" filepath="$PROJECT_DIR$/spacetablayout/spacetablayout.iml" />
     </modules>
   </component>
 </project>

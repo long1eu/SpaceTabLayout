@@ -12,10 +12,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <eu.long1.spacebuttonbar.SpaceTabLayout
+    <eu.long1.spacetablayout.SpaceTabLayout
         android:id="@+id/spaceTabLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_behavior="eu.long1.spacebuttonbar.SpaceTabLayoutBehavior" />
+        app:layout_behavior="eu.long1.spacetablayout.SpaceTabLayoutBehavior" />
 
 </android.support.design.widget.CoordinatorLayout>

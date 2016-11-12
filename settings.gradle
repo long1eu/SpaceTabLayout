@@ -1,1 +1,1 @@
-include ':demo', ':spacebuttonbar'
+include ':demo', ':spacetablayout'

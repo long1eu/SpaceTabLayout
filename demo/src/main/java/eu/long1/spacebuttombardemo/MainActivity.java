@@ -10,7 +10,8 @@ import android.view.View;
 import java.util.ArrayList;
 import java.util.List;
 
-import eu.long1.spacebuttonbar.SpaceTabLayout;
+import eu.long1.spacetablayout.SpaceTabLayout;
+
 
 public class MainActivity extends AppCompatActivity {
     SpaceTabLayout tabLayout;

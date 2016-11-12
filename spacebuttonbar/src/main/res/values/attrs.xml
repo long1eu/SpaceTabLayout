@@ -1,8 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <declare-styleable name="SpaceButtonView">
-        <attr name="icon" format="reference" />
-        <attr name="viewPagerID" format="reference" />
+    <declare-styleable name="SpaceTabLayout">
+        <attr name="tab_color" format="color" />
+        <attr name="button_color" format="color" />
+        <attr name="text_color" format="color" />
+
+        <attr name="left_icon" format="reference" />
+        <attr name="center_icon" format="reference" />
+        <attr name="right_icon" format="reference" />
+
+        <attr name="left_text" format="string" />
+        <attr name="center_text" format="string" />
+        <attr name="right_text" format="string" />
     </declare-styleable>
 
 </resources>

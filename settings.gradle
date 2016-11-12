@@ -1,1 +1,1 @@
-include ':app', ':spacebuttonbar'
+include ':demo', ':spacebuttonbar'

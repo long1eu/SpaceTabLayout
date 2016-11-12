@@ -3,12 +3,14 @@
     style="@style/LinearLayout">
 
     <ImageView
+        android:id="@+id/centerImageView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="4dp"
         android:src="@drawable/ic_center_action" />
 
     <TextView
+        android:id="@+id/centerTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Center action"

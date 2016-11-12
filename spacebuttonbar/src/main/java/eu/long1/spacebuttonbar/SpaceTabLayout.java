@@ -53,13 +53,13 @@ public class SpaceTabLayout extends RelativeLayout implements ViewPager.OnPageCh
     private ImageView backgroundImage;
     private ImageView backgroundImage2;
 
-    TextView leftTextView;
-    TextView centerTextView;
-    TextView rightTextView;
+    private TextView leftTextView;
+    private TextView centerTextView;
+    private TextView rightTextView;
 
-    ImageView leftImageView;
-    ImageView centerImageView;
-    ImageView rightImageView;
+    private ImageView leftImageView;
+    private ImageView centerImageView;
+    private ImageView rightImageView;
 
     List<Tab> tabs = new ArrayList<>();
     private List<Integer> tabSize = new ArrayList<>();
@@ -118,9 +118,9 @@ public class SpaceTabLayout extends RelativeLayout implements ViewPager.OnPageCh
 
         tabLayout = (TabLayout) findViewById(R.id.spaceTab);
 
-        defaultLeftButtonIcon = context.getResources().getDrawable(R.drawable.ic_left_action_selected);
-        defaultCenterButtonIcon = context.getResources().getDrawable(R.drawable.ic_center_action_selected);
-        defaultRightButtonIcon = context.getResources().getDrawable(R.drawable.ic_right_action_selected);
+        defaultLeftButtonIcon = context.getResources().getDrawable(R.drawable.ic_left_action);
+        defaultCenterButtonIcon = context.getResources().getDrawable(R.drawable.ic_center_action);
+        defaultRightButtonIcon = context.getResources().getDrawable(R.drawable.ic_right_action);
 
         defaultTextColor = ContextCompat.getColor(context, android.R.color.primary_text_dark);
 

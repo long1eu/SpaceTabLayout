@@ -1,9 +1,11 @@
 package eu.long1.spacebuttombardemo;
 
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +29,13 @@ public class MainActivity extends AppCompatActivity {
         tabLayout = (SpaceTabLayout) findViewById(R.id.spaceTabLayout);
 
         tabLayout.initialize(viewPager, getSupportFragmentManager(), lis, savedInstanceState);
+
+        tabLayout.setLeftActionOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(findViewById(R.id.activity_main), "Hei", Snackbar.LENGTH_LONG).show();
+            }
+        });
     }
 
     @Override

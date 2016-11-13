@@ -48,11 +48,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class SpaceTabLayout extends RelativeLayout implements ViewPager.OnPageChangeListener {
+public class SpaceTabLayout extends RelativeLayout {
 
-    Context context;
+    private Context context;
 
-    TabLayout tabLayout;
+    private TabLayout tabLayout;
 
     private Tab leftTab;
     private Tab centerTab;
@@ -72,7 +72,7 @@ public class SpaceTabLayout extends RelativeLayout implements ViewPager.OnPageCh
     private ImageView centerImageView;
     private ImageView rightImageView;
 
-    List<Tab> tabs = new ArrayList<>();
+    private List<Tab> tabs = new ArrayList<>();
     private List<Integer> tabSize = new ArrayList<>();
 
     private int currentPosition = 1;
@@ -173,7 +173,15 @@ public class SpaceTabLayout extends RelativeLayout implements ViewPager.OnPageCh
 
     }
 
-
+    /**
+     * This will initialize the View and the ViewPager to properly display
+     * the fragments from the list.
+     *
+     * @param viewPager          where you want the fragments to show
+     * @param fragmentManager    needed for the fragment transactions
+     * @param fragments          fragments to be displayed
+     * @param savedInstanceState used to save the current position
+     */
     public void initialize(ViewPager viewPager, FragmentManager fragmentManager, List<Fragment> fragments, final Bundle savedInstanceState) {
         viewPager.setAdapter(new PagerAdapter(fragmentManager, fragments));
 
@@ -199,7 +207,47 @@ public class SpaceTabLayout extends RelativeLayout implements ViewPager.OnPageCh
 
 
         viewPager.setCurrentItem(currentPosition);
-        viewPager.addOnPageChangeListener(this);
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                tabs.get(position).getCustomView().setAlpha(positionOffset);
+                if (position < 2) {
+                    tabs.get(position + 1).getCustomView().setAlpha(1 - positionOffset);
+                }
+
+                if (!tabSize.isEmpty()) {
+                    if (position < getCurrentPosition()) {
+                        final float endX = -tabSize.get(4) / 2 + getX(position, tabSize) + 42;
+                        final float startX = -tabSize.get(4) / 2 + getX(getCurrentPosition(), tabSize) + 42;
+
+                        if (!tabSize.isEmpty()) {
+                            float a = endX - (positionOffset * (endX - startX));
+                            selectedTabLayout.setX(a);
+                        }
+
+                    } else {
+                        position++;
+                        final float endX = -tabSize.get(4) / 2 + getX(position, tabSize) + 42;
+                        final float startX = -tabSize.get(4) / 2 + getX(getCurrentPosition(), tabSize) + 42;
+
+                        float a = startX + (positionOffset * (endX - startX));
+                        selectedTabLayout.setX(a);
+                    }
+                }
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                tabs.get(position).getCustomView().setAlpha(0);
+                setCurrentPosition(position);
+                moveTab(tabSize, position);
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+            }
+        });
 
         leftTab = tabLayout.getTabAt(0);
         leftTab.setCustomView(R.layout.left_tab_layout);
@@ -236,6 +284,7 @@ public class SpaceTabLayout extends RelativeLayout implements ViewPager.OnPageCh
         setAttrs();
     }
 
+
     private void setAttrs() {
         setTabColor(defaultTabColor);
 
@@ -256,47 +305,6 @@ public class SpaceTabLayout extends RelativeLayout implements ViewPager.OnPageCh
 
     public void saveState(Bundle outState) {
         outState.putInt("buttonPosition", currentPosition);
-    }
-
-
-    @Override
-    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-        tabs.get(position).getCustomView().setAlpha(positionOffset);
-        if (position < 2) {
-            tabs.get(position + 1).getCustomView().setAlpha(1 - positionOffset);
-        }
-
-        if (!tabSize.isEmpty()) {
-            if (position < getCurrentPosition()) {
-                final float endX = -tabSize.get(4) / 2 + getX(position, tabSize) + 42;
-                final float startX = -tabSize.get(4) / 2 + getX(getCurrentPosition(), tabSize) + 42;
-
-                if (!tabSize.isEmpty()) {
-                    float a = endX - (positionOffset * (endX - startX));
-                    selectedTabLayout.setX(a);
-                }
-
-            } else {
-                position++;
-                final float endX = -tabSize.get(4) / 2 + getX(position, tabSize) + 42;
-                final float startX = -tabSize.get(4) / 2 + getX(getCurrentPosition(), tabSize) + 42;
-
-                float a = startX + (positionOffset * (endX - startX));
-                selectedTabLayout.setX(a);
-            }
-        }
-    }
-
-    @Override
-    public void onPageSelected(int position) {
-        tabs.get(position).getCustomView().setAlpha(0);
-        setCurrentPosition(position);
-        moveTab(tabSize, position);
-
-    }
-
-    @Override
-    public void onPageScrollStateChanged(int state) {
     }
 
     private void moveTab(List<Integer> tabSize, int position) {
@@ -394,6 +402,11 @@ public class SpaceTabLayout extends RelativeLayout implements ViewPager.OnPageCh
         this.centerActionOnClickListener = centerActionOnClickListener;
     }
 
+    /**
+     * If you want to make calls specific to the {@link FloatingActionButton}
+     *
+     * @return the Floating Action Button of the layout
+     */
     public FloatingActionButton getButton() {
         return actionButton;
     }

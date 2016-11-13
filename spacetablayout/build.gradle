@@ -5,7 +5,7 @@
  *     you may not use this file except in compliance with the License.
  *     You may obtain a copy of the License at
  *
- *        http://www.apache.org/licenses/LICENSE-2.0
+     *        http://www.apache.org/licenses/LICENSE-2.0
  *
  *     Unless required by applicable law or agreed to in writing, software
  *     distributed under the License is distributed on an "AS IS" BASIS,
@@ -30,7 +30,7 @@ ext {
     siteUrl = 'https://github.com/thelong1EU/SpaceTabLayout'
     gitUrl = 'https://github.com/thelong1EU/SpaceTabLayout.git'
 
-    libraryVersion = '1.0.1'
+    libraryVersion = '1.0.2'
 
     developerId = 'thelong1eu'
     developerName = 'Lung Razvan'
@@ -46,7 +46,7 @@ android {
     buildToolsVersion "25.0.0"
 
     defaultConfig {
-        minSdkVersion 15
+        minSdkVersion 11
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"

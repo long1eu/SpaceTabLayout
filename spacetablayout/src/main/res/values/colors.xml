@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Copyright (c) 2016 Lung Razvan
   ~
@@ -14,12 +15,8 @@
   ~     limitations under the License.
   -->
 
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="eu.long1.spacetablayout">
-
-    <application android:allowBackup="true" android:label="@string/app_name"
-        android:supportsRtl="true">
-
-    </application>
-
-</manifest>
+<resources>
+    <color name="colorPrimary">#3f51b5</color>
+    <color name="colorPrimaryDark">#2f3e9e</color>
+    <color name="colorAccent">#ff4081</color>
+</resources>

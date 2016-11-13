@@ -14,12 +14,10 @@
   ~     limitations under the License.
   -->
 
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="eu.long1.spacetablayout">
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
 
-    <application android:allowBackup="true" android:label="@string/app_name"
-        android:supportsRtl="true">
-
-    </application>
-
-</manifest>
+    <dimen name="action_button_size">56dp</dimen>
+</resources>

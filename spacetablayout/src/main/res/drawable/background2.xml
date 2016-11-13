@@ -14,12 +14,12 @@
   ~     limitations under the License.
   -->
 
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="eu.long1.spacetablayout">
-
-    <application android:allowBackup="true" android:label="@string/app_name"
-        android:supportsRtl="true">
-
-    </application>
-
-</manifest>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+        android:width="1352dp"
+        android:height="72dp"
+        android:viewportWidth="960.0"
+        android:viewportHeight="72.0">
+    <path
+        android:pathData="m0,16 l0,56 960,0 0,-56z"
+        android:fillColor="#3f51b5"/>
+</vector>

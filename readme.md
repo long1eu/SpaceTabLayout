@@ -6,8 +6,8 @@ This is a custom implementation of a RelativeLayout that you can use along with 
 
 #Code usage
 
-You can use this properties in xml for connivance:
-```
+You can use this properties in xml for convenience
+```xml
         app:tab_color="@color/colorPrimary"
         app:button_color="@color/colorAccent"
         app:text_color="#61FFFFFF"
@@ -76,33 +76,31 @@ compile 'eu.long1:spacetablayout:1.0.1'
 
 ###XML implementation
 In your layout just include this. You can customize the Tab here with text, icons, colors...
-```
+```xml
  <eu.long1.spacetablayout.SpaceTabLayout
         android:id="@+id/spaceTabLayout"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-```
-```
+        android:layout_height="wrap_content" 
+        
         app:tab_color="@color/colorPrimary"
         app:button_color="@color/colorAccent"
         app:text_color="#61FFFFFF"
-        
         app:left_icon="@drawable/ic_keyboard"
         app:center_icon="@drawable/ic_fingerprint"
         app:right_icon="@drawable/ic_action"
-        
         app:left_text="Left action"
         app:center_text="Center action"
-        app:right_text="Right action"
+        app:right_text="Right action"/>
 ```
 ####SnackBar behavior
 If you are using a CoordinatorLayout as the root of your layout you can add this line to proper handle the behavior when a SnackBar is visible. 
-```
+```xml
  app:layout_behavior="eu.long1.spacetablayout.SpaceTabLayoutBehavior" 
 ```
 ####XML Example
-```
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+```xml
+<android.support.design.widget.CoordinatorLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
@@ -143,7 +141,8 @@ In your MainActivity.java you need to initialize the SpaceTabLayout like this:
             tabLayout = (SpaceTabLayout) findViewById(R.id.spaceTabLayout);
             
             //we need the savedInstanceState to get the position
-            tabLayout.initialize(viewPager, getSupportFragmentManager(), fragmentList, savedInstanceState);
+            tabLayout.initialize(viewPager, getSupportFragmentManager(), 
+                            fragmentList, savedInstanceState);
         }
     
     

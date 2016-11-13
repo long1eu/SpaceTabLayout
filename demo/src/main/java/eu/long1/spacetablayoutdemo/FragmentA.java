@@ -1,4 +1,4 @@
-package eu.long1.spacebuttombardemo;
+package eu.long1.spacetablayoutdemo;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;

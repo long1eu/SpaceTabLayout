@@ -1,4 +1,4 @@
-package eu.long1.spacebuttombardemo;
+package eu.long1.spacetablayoutdemo;
 
 import org.junit.Test;
 

@@ -1,4 +1,4 @@
-package eu.long1.spacebuttombardemo;
+package eu.long1.spacetablayoutdemo;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

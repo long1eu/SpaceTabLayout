@@ -1,5 +1,5 @@
 #Synopsis
-This is a custom implementation of a RelativeLayout that you can use along with a ViewPager to navigate between fragments. You can use this library if you have 3 tab(icon + text) or you can use it with 4 or 5 tab(icon only).
+This is a custom implementation of a RelativeLayout that you can use along with a ViewPager to navigate between fragments. You can use this library if you have 3 tab(icon + text) {or you can use it with 4 or 5 tab(icon only) comming soon}.
 
 ![alt text](/readmeSource/gif.gif "Logo Title Text 1")
 
@@ -51,7 +51,7 @@ repositories {
 ```
 Copy this under dependencies brackets in the same file:
 ```
-compile 'eu.long1:spacetablayout:1.0.0'
+compile 'eu.long1:spacetablayout:1.0.1'
 ```
 #License
 -------

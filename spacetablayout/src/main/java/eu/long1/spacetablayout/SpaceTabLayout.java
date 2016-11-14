@@ -36,7 +36,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewTreeObserver;
@@ -70,9 +69,9 @@ public class SpaceTabLayout extends RelativeLayout {
     private TextView tabTwoTextView;
     private TextView tabThreeTextView;
 
-    private String left_text;
-    private String center_text;
-    private String right_text;
+    private String text_one;
+    private String text_two;
+    private String text_three;
 
     private ImageView tabOneImageView;
     private ImageView tabTwoImageView;
@@ -105,6 +104,8 @@ public class SpaceTabLayout extends RelativeLayout {
     private int defaultTabColor;
 
     private boolean iconOnly = false;
+
+    private boolean SCROLL_STATE_DRAGGING = false;
 
     public SpaceTabLayout(Context context) {
         super(context);
@@ -164,10 +165,10 @@ public class SpaceTabLayout extends RelativeLayout {
                     numberOfTabs = 3;
                     iconOnly = true;
                 }
-                //TODO: check the starting position number
             } else if (attr == R.styleable.SpaceTabLayout_starting_position) {
                 startingPosition = a.getInt(attr, 0);
-                if (startingPosition == 0) {
+                int test = startingPosition + 1;
+                if (startingPosition == 0 || test > numberOfTabs) {
                     switch (numberOfTabs) {
                         case 3:
                             startingPosition = 1;
@@ -218,23 +219,31 @@ public class SpaceTabLayout extends RelativeLayout {
             } else if (attr == R.styleable.SpaceTabLayout_text_color) {
                 defaultTextColor = a.getColor(attr, ContextCompat.getColor(context, android.R.color.primary_text_dark));
 
-            } else if (attr == R.styleable.SpaceTabLayout_left_icon) {
+            } else if (attr == R.styleable.SpaceTabLayout_icon_one) {
                 defaultTabOneButtonIcon = a.getDrawable(attr);
 
-            } else if (attr == R.styleable.SpaceTabLayout_center_icon) {
+            } else if (attr == R.styleable.SpaceTabLayout_icon_two) {
                 defaultTabTwoButtonIcon = a.getDrawable(attr);
 
-            } else if (attr == R.styleable.SpaceTabLayout_right_icon) {
+            } else if (attr == R.styleable.SpaceTabLayout_icon_three) {
                 defaultTabThreeButtonIcon = a.getDrawable(attr);
 
-            } else if (attr == R.styleable.SpaceTabLayout_left_text) {
-                left_text = a.getString(attr);
+            } else if (attr == R.styleable.SpaceTabLayout_icon_four) {
+                if (numberOfTabs > 3)
+                    defaultTabFourButtonIcon = a.getDrawable(attr);
 
-            } else if (attr == R.styleable.SpaceTabLayout_center_text) {
-                center_text = a.getString(attr);
+            } else if (attr == R.styleable.SpaceTabLayout_icon_five) {
+                if (numberOfTabs > 4)
+                    defaultTabFiveButtonIcon = a.getDrawable(attr);
 
-            } else if (attr == R.styleable.SpaceTabLayout_right_text) {
-                right_text = a.getString(attr);
+            } else if (attr == R.styleable.SpaceTabLayout_text_one) {
+                text_one = a.getString(attr);
+
+            } else if (attr == R.styleable.SpaceTabLayout_text_two) {
+                text_two = a.getString(attr);
+
+            } else if (attr == R.styleable.SpaceTabLayout_text_three) {
+                text_three = a.getString(attr);
 
             }
         }
@@ -280,32 +289,32 @@ public class SpaceTabLayout extends RelativeLayout {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
-                tabs.get(position).getCustomView().setAlpha(positionOffset);
-                if (position < numberOfTabs - 1) {
-                    tabs.get(position + 1).getCustomView().setAlpha(1 - positionOffset);
-                }
+                if (SCROLL_STATE_DRAGGING) {
+                    tabs.get(position).getCustomView().setAlpha(positionOffset);
+                    if (position < numberOfTabs - 1) {
+                        tabs.get(position + 1).getCustomView().setAlpha(1 - positionOffset);
+                    }
 
+                    if (!tabSize.isEmpty()) {
+                        if (position < currentPosition) {
+                            final float endX = -tabSize.get(2) / 2 + getX(position, tabSize) + 42;
+                            final float startX = -tabSize.get(2) / 2 + getX(currentPosition, tabSize) + 42;
 
-                if (!tabSize.isEmpty()) {
-                    if (position < currentPosition) {
-                        final float endX = -tabSize.get(2) / 2 + getX(position, tabSize) + 42;
-                        final float startX = -tabSize.get(2) / 2 + getX(currentPosition, tabSize) + 42;
+                            if (!tabSize.isEmpty()) {
+                                float a = endX - (positionOffset * (endX - startX));
+                                selectedTabLayout.setX(a);
+                            }
 
-                        if (!tabSize.isEmpty()) {
-                            float a = endX - (positionOffset * (endX - startX));
+                        } else {
+                            position++;
+                            final float endX = -tabSize.get(2) / 2 + getX(position, tabSize) + 42;
+                            final float startX = -tabSize.get(2) / 2 + getX(currentPosition, tabSize) + 42;
+
+                            float a = startX + (positionOffset * (endX - startX));
                             selectedTabLayout.setX(a);
                         }
-
-                    } else {
-                        position++;
-                        final float endX = -tabSize.get(2) / 2 + getX(position, tabSize) + 42;
-                        final float startX = -tabSize.get(2) / 2 + getX(currentPosition, tabSize) + 42;
-
-                        float a = startX + (positionOffset * (endX - startX));
-                        selectedTabLayout.setX(a);
                     }
                 }
-
             }
 
             @Override
@@ -318,6 +327,13 @@ public class SpaceTabLayout extends RelativeLayout {
 
             @Override
             public void onPageScrollStateChanged(int state) {
+                SCROLL_STATE_DRAGGING = state == ViewPager.SCROLL_STATE_DRAGGING;
+
+                if (state == ViewPager.SCROLL_STATE_SETTLING) {
+                    for (Tab t : tabs) t.getCustomView().setAlpha(1);
+                    tabs.get(currentPosition).getCustomView().setAlpha(0);
+                    moveTab(tabSize, currentPosition);
+                }
             }
         });
 
@@ -380,9 +396,9 @@ public class SpaceTabLayout extends RelativeLayout {
         setButtonColor(defaultButtonColor);
 
         if (numberOfTabs == 3 && !iconOnly) {
-            if (left_text != null) setTabOneText(left_text);
-            if (center_text != null) setTabTwoText(center_text);
-            if (right_text != null) setTabThreeText(right_text);
+            if (text_one != null) setTabOneText(text_one);
+            if (text_two != null) setTabTwoText(text_two);
+            if (text_three != null) setTabThreeText(text_three);
 
             setTabOneTextColor(defaultTextColor);
             setTabTwoTextColor(defaultTextColor);
@@ -404,6 +420,35 @@ public class SpaceTabLayout extends RelativeLayout {
         if (!tabSize.isEmpty()) {
             float backgroundX = -tabSize.get(2) / 2 + getX(position, tabSize) + 42;
             selectedTabLayout.setX(backgroundX);
+            switch (position) {
+                case 0:
+                    actionButton.setImageDrawable(defaultTabOneButtonIcon);
+                    actionButton.setOnClickListener(tabOneOnClickListener);
+                    break;
+                case 1:
+                    actionButton.setImageDrawable(defaultTabTwoButtonIcon);
+                    actionButton.setOnClickListener(tabTwoOnClickListener);
+                    break;
+                case 2:
+                    actionButton.setImageDrawable(defaultTabThreeButtonIcon);
+                    actionButton.setOnClickListener(tabThreeOnClickListener);
+                    break;
+                case 3:
+                    actionButton.setImageDrawable(defaultTabFourButtonIcon);
+                    actionButton.setOnClickListener(tabFourOnClickListener);
+                    break;
+                case 4:
+                    actionButton.setImageDrawable(defaultTabFiveButtonIcon);
+                    actionButton.setOnClickListener(tabFiveOnClickListener);
+                    break;
+            }
+        }
+    }
+
+    private void moveTabAnimate(List<Integer> tabSize, int position) {
+        if (!tabSize.isEmpty()) {
+            float backgroundX = -tabSize.get(2) / 2 + getX(position, tabSize) + 42;
+            selectedTabLayout.animate().x(backgroundX).setDuration(200);
             switch (position) {
                 case 0:
                     actionButton.setImageDrawable(defaultTabOneButtonIcon);
@@ -538,7 +583,7 @@ public class SpaceTabLayout extends RelativeLayout {
     }
 
     public void setTabFiveOnClickListener(OnClickListener l) {
-        if (numberOfTabs > 4) tabFourOnClickListener = l;
+        if (numberOfTabs > 4) tabFiveOnClickListener = l;
         else throw new IllegalArgumentException("You have " + numberOfTabs + " tabs.");
     }
 
@@ -700,69 +745,69 @@ public class SpaceTabLayout extends RelativeLayout {
      **********************************************************************************************/
     public void setTabOneText(String tabOneText) {
         if (!iconOnly) tabOneTextView.setText(tabOneText);
-        else throw new IllegalArgumentException("You sellected icons only.");
+        else throw new IllegalArgumentException("You selected icons only.");
     }
 
     public void setTabOneText(@StringRes int tabOneText) {
         if (!iconOnly) tabOneTextView.setText(tabOneText);
-        else throw new IllegalArgumentException("You sellected icons only.");
+        else throw new IllegalArgumentException("You selected icons only.");
     }
 
     public void setTabTwoText(String tabTwoText) {
         if (!iconOnly) tabTwoTextView.setText(tabTwoText);
-        else throw new IllegalArgumentException("You sellected icons only.");
+        else throw new IllegalArgumentException("You selected icons only.");
     }
 
     public void setTabTwoText(@StringRes int tabTwoText) {
         if (!iconOnly) tabTwoTextView.setText(tabTwoText);
-        else throw new IllegalArgumentException("You sellected icons only.");
+        else throw new IllegalArgumentException("You selected icons only.");
     }
 
     public void setTabThreeText(String tabThreeText) {
         if (!iconOnly) tabThreeTextView.setText(tabThreeText);
-        else throw new IllegalArgumentException("You sellected icons only.");
+        else throw new IllegalArgumentException("You selected icons only.");
 
     }
 
     public void setTabThreeText(@StringRes int tabThreeText) {
         if (!iconOnly) tabThreeTextView.setText(tabThreeText);
-        else throw new IllegalArgumentException("You sellected icons only.");
+        else throw new IllegalArgumentException("You selected icons only.");
     }
 
 
     public void setTabOneTextColor(@ColorInt int tabOneTextColor) {
         if (!iconOnly) tabOneTextView.setTextColor(tabOneTextColor);
-        else throw new IllegalArgumentException("You sellected icons only.");
+        else throw new IllegalArgumentException("You selected icons only.");
 
     }
 
     public void setTabOneTextColor(ColorStateList colorStateList) {
         if (!iconOnly) tabOneTextView.setTextColor(colorStateList);
-        else throw new IllegalArgumentException("You sellected icons only.");
+        else throw new IllegalArgumentException("You selected icons only.");
 
     }
 
     public void setTabTwoTextColor(@ColorInt int tabTwoTextColor) {
         if (!iconOnly) tabTwoTextView.setTextColor(tabTwoTextColor);
-        else throw new IllegalArgumentException("You sellected icons only.");
+        else throw new IllegalArgumentException("You selected icons only.");
 
     }
 
     public void setTabTwoTextColor(ColorStateList colorStateList) {
         if (!iconOnly) tabTwoTextView.setTextColor(colorStateList);
-        else throw new IllegalArgumentException("You sellected icons only.");
+        else throw new IllegalArgumentException("You selected icons only.");
 
     }
 
     public void setTabThreeTextColor(@ColorInt int tabThreeTextColor) {
         if (!iconOnly) tabThreeTextView.setTextColor(tabThreeTextColor);
-        else throw new IllegalArgumentException("You sellected icons only.");
+        else throw new IllegalArgumentException("You selected icons only.");
 
     }
 
     public void setTabThreeTextColor(ColorStateList colorStateList) {
         if (!iconOnly) tabThreeTextView.setTextColor(colorStateList);
-        else throw new IllegalArgumentException("You sellected icons only.");
+        else throw new IllegalArgumentException("You selected icons only.");
 
 
     }

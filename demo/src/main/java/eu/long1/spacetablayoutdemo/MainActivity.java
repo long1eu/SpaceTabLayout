@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,4 +42,5 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.saveState(outState);
         super.onSaveInstanceState(outState);
     }
+
 }

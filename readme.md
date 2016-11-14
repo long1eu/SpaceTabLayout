@@ -1,24 +1,29 @@
 #Synopsis
 This is a custom implementation of a RelativeLayout that you can use along with a ViewPager to navigate between fragments. You can use this library if you want 3 tabs(icon + text).
 
-![alt text](/readmeSource/gif.gif "Logo Title Text 1")
+![alt text](/readmeSource/3.gif "Logo Title Text 1")![alt text](/readmeSource/4.gif "Logo Title Text 1")![alt text](/readmeSource/5.gif "Logo Title Text 1")
 
 
 #Code usage
 
-You can use this properties in xml for convenience
+You can use this properties in xml for convenience. You can set the number of tabs you want to use and the starting tab position.
 ```xml
+        app:number_of_tabs="five"
+        app:starting_position="three"
+        
         app:tab_color="@color/colorPrimary"
         app:button_color="@color/colorAccent"
         app:text_color="#61FFFFFF"
         
-        app:left_icon="@drawable/ic_keyboard"
-        app:center_icon="@drawable/ic_fingerprint"
-        app:right_icon="@drawable/ic_action"
-        
-        app:left_text="Left action"
-        app:center_text="Center action"
-        app:right_text="Right action"
+        app:icon_one="@drawable/ic_hotel_black_24dp"
+        app:icon_two="@drawable/design_ic_visibility"
+        app:icon_three="@drawable/ic_content_cut_black_24dp"
+        app:icon_four="@drawable/ic_check_black_24dp"
+        app:icon_five="@drawable/ic_fingerprint_black_24dp"
+         
+        app:text_one="Action"
+        app:text_two="Action"
+        app:text_three="Action"
 ```
 
 
@@ -32,25 +37,14 @@ You can also use the fallowing methods to customize its appearance and behavior:
 | getButton();                                              | Give you the Floating Action Button View.                                                                   |
 | setButtonColor(@ColorInt int backgroundColor);            | Change the color of the Floating Button.                                                                    |
 | setOnClickListener(View.OnClickListener l);               | Set the same OnClickListener to all positions.                                                              |
-| setLeftActionOnClickListener(View.OnClickListener ll);    | Set the OnClickListener for the left position.                                                              |
-| setCenterActionOnClickListener(View.OnClickListener cl);  | Set the OnClickListener for the center position.                                                            |
-| setRightActionOnClickListener(View.OnClickListener rl);   | Set the OnClickListener for the right position.                                                             |
-| getLeftView();                                            | Get you the left base LinearLayout that contains an ImageView or an ImageView and a TextView.               |
-| setLeftView(View leftView);                               | You can set the base layout for the left position.                                                          |
-| getCenterView();                                          | Get you the center base LinearLayout that contains an ImageView or an ImageView and a TextView.             |
-| setCenterView(View centerView);                           | You can set the base layout for the center position.                                                        |
-| getRightView();                                           | Get you the right base LinearLayout that contains an ImageView or an ImageView and a TextView.              |
-| setRightView(View rightView);                             | You can set the base layout for the right position.                                                         | 
-| setLeftIcon(@DrawableRes int leftButtonIcon);             | Set the icon for both the left tab and the Action Button when in the left position.                         |
-| setCenterIcon(@DrawableRes int centerButtonIcon);         | Set the icon for both the center tab and the Action Button when in the center position.                     |
-| setRightIcon(@DrawableRes int rightButtonIcon);           | Set the icon for both the right tab and the Action Button when in the right position.                       |
-| setLeftText(String leftText);                             | Set the text of the left position.                                                                          |
-| setCenterText(String centerText);                         | Set the text of the center position.                                                                        |
-| setRightText(String rightText);                           | Set the text of the right position.                                                                         |
-| setLeftTextColor(@ColorInt int leftText);                 | Set the text color of the left position.                                                                    |
-| setCenterTextColor(@ColorInt int centerText);             | Set the text color of the center position.                                                                  |
-| setRightTextColor(@ColorInt int rightText);               | Set the text color of the riht position.                                                                    |
-
+| setTabOneOnClickListener(View.OnClickListener ll);        | Set the OnClickListener for the first position.                                                             |
+| setTabTwoOnClickListener(View.OnClickListener cl);        | Set the OnClickListener for the second position.                                                            |
+| getTabOneView();                                          | Get you the first base LinearLayout that contains an ImageView or an ImageView and a TextView.              |
+| setTabOneView(View tabOneView);                           | You can set the base layout for the first position.                                                         |
+| getTabTwoView();                                          | Get you the second base LinearLayout that contains an ImageView or an ImageView and a TextView.             |
+| setTabTwoView(View centerView);                           | You can set the base layout for the second position.                                                        |
+| setTabOneIcon(@DrawableRes int tabOneIcon);               | Set the icon for both the first tab and the Action Button when in the first position.                       |
+| setTabTwoIcon(@DrawableRes int tabTwoIcon);               | Set the icon for both the second tab and the Action Button when in the second position.                     |
 
 #Motivation
 I get the inspiration from the Google Space app that uses a center Floating Action Button. I liked the idea so much that I though that it would be so nice if we could have this like a TabLayout.
@@ -73,16 +67,16 @@ In your layout just include this. You can customize the Tab here with text, icon
         android:id="@+id/spaceTabLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" 
-        
+        app:number_of_tabs="five"
+        app:starting_position="three"
         app:tab_color="@color/colorPrimary"
         app:button_color="@color/colorAccent"
         app:text_color="#61FFFFFF"
-        app:left_icon="@drawable/ic_keyboard"
-        app:center_icon="@drawable/ic_fingerprint"
-        app:right_icon="@drawable/ic_action"
-        app:left_text="Left action"
-        app:center_text="Center action"
-        app:right_text="Right action"/>
+        app:icon_one="@drawable/ic_hotel_black_24dp"
+        app:icon_two="@drawable/design_ic_visibility"
+        app:icon_three="@drawable/ic_content_cut_black_24dp"
+        app:icon_four="@drawable/ic_check_black_24dp"
+        app:icon_five="@drawable/ic_fingerprint_black_24dp"/>
 ```
 ####SnackBar behavior
 If you are using a CoordinatorLayout as the root of your layout you can add this line to proper handle the behavior when a SnackBar is visible. 
@@ -91,8 +85,7 @@ If you are using a CoordinatorLayout as the root of your layout you can add this
 ```
 ####XML Example
 ```xml
-<android.support.design.widget.CoordinatorLayout 
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
@@ -101,16 +94,18 @@ If you are using a CoordinatorLayout as the root of your layout you can add this
     <android.support.v4.view.ViewPager
         android:id="@+id/viewPager"
         android:layout_width="match_parent"
-        android:layout_height="460dp" />
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="56dp" />
 
     <eu.long1.spacetablayout.SpaceTabLayout
         android:id="@+id/spaceTabLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_behavior="eu.long1.spacetablayout.SpaceTabLayoutBehavior" />
-    
-</android.support.design.widget.CoordinatorLayout>
+        app:layout_behavior="eu.long1.spacetablayout.SpaceTabLayoutBehavior"
+        app:number_of_tabs="five"
+        app:starting_position="three" />
 
+</android.support.design.widget.CoordinatorLayout>
 ```
 ###Code implementation
 In your MainActivity.java you need to initialize the SpaceTabLayout like this:

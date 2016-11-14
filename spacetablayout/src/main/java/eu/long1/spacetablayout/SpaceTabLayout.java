@@ -403,7 +403,7 @@ public class SpaceTabLayout extends RelativeLayout {
     }
 
     /**
-     * If you want to make calls specific to the {@link FloatingActionButton}
+     * If you want to make calls specific to the FloatingActionButton
      *
      * @return the Floating Action Button of the layout
      */

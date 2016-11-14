@@ -61,15 +61,7 @@ You can see in the image:
 
 #Installation
 ###Declaring dependencies
-Add this to your gradle.build file:
-```
-repositories {
-    maven {
-        url  "http://dl.bintray.com/thelong1eu/spacetablayout"
-    }
-}
-```
-Copy this under dependencies brackets in the same file:
+Add this to dependencies brackets in the gradle.build file:
 ```
 compile 'eu.long1:spacetablayout:1.0.2'
 ```

@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (c) 2016 Lung Razvan
   ~
   ~     Licensed under the Apache License, Version 2.0 (the "License");
@@ -19,17 +18,16 @@
     style="@style/LinearLayout">
 
     <ImageView
-        android:id="@+id/rightImageView"
+        android:id="@+id/tabImageView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="4dp"
-        android:src="@drawable/ic_right_action" />
+        android:padding="4dp" />
 
     <TextView
-        android:id="@+id/rightTextView"
+        android:id="@+id/tabTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Right action"
+        android:text="Action"
         android:textColor="#FFFFFF" />
 
 </LinearLayout>

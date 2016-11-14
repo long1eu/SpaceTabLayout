@@ -36,13 +36,13 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,9 +54,11 @@ public class SpaceTabLayout extends RelativeLayout {
 
     private TabLayout tabLayout;
 
-    private Tab leftTab;
-    private Tab centerTab;
-    private Tab rightTab;
+    private Tab tabOne;
+    private Tab tabTwo;
+    private Tab tabThree;
+    private Tab tabFour;
+    private Tab tabFive;
 
     private RelativeLayout parentLayout;
     private RelativeLayout selectedTabLayout;
@@ -64,35 +66,45 @@ public class SpaceTabLayout extends RelativeLayout {
     private ImageView backgroundImage;
     private ImageView backgroundImage2;
 
-    private TextView leftTextView;
-    private TextView centerTextView;
-    private TextView rightTextView;
-
-    private ImageView leftImageView;
-    private ImageView centerImageView;
-    private ImageView rightImageView;
-
-    private List<Tab> tabs = new ArrayList<>();
-    private List<Integer> tabSize = new ArrayList<>();
-
-    private int currentPosition = 1;
-
-    private View.OnClickListener leftActionOnClickListener;
-    private View.OnClickListener centerActionOnClickListener;
-    private View.OnClickListener rightActionOnClickListener;
-
-    private Drawable defaultLeftButtonIcon;
-    private Drawable defaultCenterButtonIcon;
-    private Drawable defaultRightButtonIcon;
-
-    private int defaultTextColor;
-
-    private int defaultButtonColor;
-    private int defaultTabColor;
+    private TextView tabOneTextView;
+    private TextView tabTwoTextView;
+    private TextView tabThreeTextView;
 
     private String left_text;
     private String center_text;
     private String right_text;
+
+    private ImageView tabOneImageView;
+    private ImageView tabTwoImageView;
+    private ImageView tabThreeImageView;
+    private ImageView tabFourImageView;
+    private ImageView tabFiveImageView;
+
+    private List<Tab> tabs = new ArrayList<>();
+    private List<Integer> tabSize = new ArrayList<>();
+
+    private int numberOfTabs = 3;
+    private int currentPosition;
+    private int startingPosition;
+
+    private OnClickListener tabOneOnClickListener;
+    private OnClickListener tabTwoOnClickListener;
+    private OnClickListener tabThreeOnClickListener;
+    private OnClickListener tabFourOnClickListener;
+    private OnClickListener tabFiveOnClickListener;
+
+
+    private Drawable defaultTabOneButtonIcon;
+    private Drawable defaultTabTwoButtonIcon;
+    private Drawable defaultTabThreeButtonIcon;
+    private Drawable defaultTabFourButtonIcon;
+    private Drawable defaultTabFiveButtonIcon;
+
+    private int defaultTextColor;
+    private int defaultButtonColor;
+    private int defaultTabColor;
+
+    private boolean iconOnly = false;
 
     public SpaceTabLayout(Context context) {
         super(context);
@@ -111,12 +123,12 @@ public class SpaceTabLayout extends RelativeLayout {
     public SpaceTabLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         this.context = context;
-        init();
         initArrts(attrs);
+        init();
     }
 
     private void init() {
-        LayoutInflater.from(context).inflate(R.layout.activity_space_button, this);
+        LayoutInflater.from(context).inflate(R.layout.three_tab_space_layout, this);
 
         parentLayout = (RelativeLayout) findViewById(R.id.tabLayout);
 
@@ -129,9 +141,11 @@ public class SpaceTabLayout extends RelativeLayout {
 
         tabLayout = (TabLayout) findViewById(R.id.spaceTab);
 
-        defaultLeftButtonIcon = context.getResources().getDrawable(R.drawable.ic_left_action);
-        defaultCenterButtonIcon = context.getResources().getDrawable(R.drawable.ic_center_action);
-        defaultRightButtonIcon = context.getResources().getDrawable(R.drawable.ic_right_action);
+        defaultTabOneButtonIcon = context.getResources().getDrawable(R.drawable.ic_tab_one);
+        defaultTabTwoButtonIcon = context.getResources().getDrawable(R.drawable.ic_tab_two);
+        defaultTabThreeButtonIcon = context.getResources().getDrawable(R.drawable.ic_tab_three);
+        defaultTabFourButtonIcon = context.getResources().getDrawable(R.drawable.ic_tab_four);
+        defaultTabFiveButtonIcon = context.getResources().getDrawable(R.drawable.ic_tab_five);
 
         defaultTextColor = ContextCompat.getColor(context, android.R.color.primary_text_dark);
 
@@ -144,7 +158,58 @@ public class SpaceTabLayout extends RelativeLayout {
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.SpaceTabLayout);
         for (int i = 0; i < a.getIndexCount(); ++i) {
             int attr = a.getIndex(i);
-            if (attr == R.styleable.SpaceTabLayout_tab_color) {
+            if (attr == R.styleable.SpaceTabLayout_number_of_tabs) {
+                numberOfTabs = a.getInt(attr, 3);
+                if (numberOfTabs == 0) {
+                    numberOfTabs = 3;
+                    iconOnly = true;
+                }
+                //TODO: check the starting position number
+            } else if (attr == R.styleable.SpaceTabLayout_starting_position) {
+                startingPosition = a.getInt(attr, 0);
+                if (startingPosition == 0) {
+                    switch (numberOfTabs) {
+                        case 3:
+                            startingPosition = 1;
+                            actionButton.setImageDrawable(defaultTabTwoButtonIcon);
+                            actionButton.setOnClickListener(tabTwoOnClickListener);
+                            break;
+                        case 4:
+                            startingPosition = 0;
+                            actionButton.setImageDrawable(defaultTabOneButtonIcon);
+                            actionButton.setOnClickListener(tabOneOnClickListener);
+                            break;
+                        case 5:
+                            startingPosition = 2;
+                            actionButton.setImageDrawable(defaultTabThreeButtonIcon);
+                            actionButton.setOnClickListener(tabThreeOnClickListener);
+                            break;
+                    }
+                } else {
+                    switch (startingPosition) {
+                        case 1:
+                            actionButton.setImageDrawable(defaultTabOneButtonIcon);
+                            actionButton.setOnClickListener(tabOneOnClickListener);
+                            break;
+                        case 2:
+                            actionButton.setImageDrawable(defaultTabTwoButtonIcon);
+                            actionButton.setOnClickListener(tabTwoOnClickListener);
+                            break;
+                        case 3:
+                            actionButton.setImageDrawable(defaultTabThreeButtonIcon);
+                            actionButton.setOnClickListener(tabThreeOnClickListener);
+                            break;
+                        case 4:
+                            actionButton.setImageDrawable(defaultTabFourButtonIcon);
+                            actionButton.setOnClickListener(tabFourOnClickListener);
+                            break;
+                        case 5:
+                            actionButton.setImageDrawable(defaultTabFiveButtonIcon);
+                            actionButton.setOnClickListener(tabFiveOnClickListener);
+                            break;
+                    }
+                }
+            } else if (attr == R.styleable.SpaceTabLayout_tab_color) {
                 defaultTabColor = a.getColor(attr, context.getResources().getIdentifier("colorAccent", "color", context.getPackageName()));
 
             } else if (attr == R.styleable.SpaceTabLayout_button_color) {
@@ -154,20 +219,23 @@ public class SpaceTabLayout extends RelativeLayout {
                 defaultTextColor = a.getColor(attr, ContextCompat.getColor(context, android.R.color.primary_text_dark));
 
             } else if (attr == R.styleable.SpaceTabLayout_left_icon) {
-                defaultLeftButtonIcon = a.getDrawable(attr);
+                defaultTabOneButtonIcon = a.getDrawable(attr);
 
             } else if (attr == R.styleable.SpaceTabLayout_center_icon) {
-                defaultCenterButtonIcon = a.getDrawable(attr);
+                defaultTabTwoButtonIcon = a.getDrawable(attr);
 
             } else if (attr == R.styleable.SpaceTabLayout_right_icon) {
-                defaultRightButtonIcon = a.getDrawable(attr);
+                defaultTabThreeButtonIcon = a.getDrawable(attr);
 
             } else if (attr == R.styleable.SpaceTabLayout_left_text) {
                 left_text = a.getString(attr);
+
             } else if (attr == R.styleable.SpaceTabLayout_center_text) {
                 center_text = a.getString(attr);
+
             } else if (attr == R.styleable.SpaceTabLayout_right_text) {
                 right_text = a.getString(attr);
+
             }
         }
 
@@ -183,6 +251,8 @@ public class SpaceTabLayout extends RelativeLayout {
      * @param savedInstanceState used to save the current position
      */
     public void initialize(ViewPager viewPager, FragmentManager fragmentManager, List<Fragment> fragments, final Bundle savedInstanceState) {
+        if (numberOfTabs < fragments.size() || numberOfTabs > fragments.size())
+            throw new IllegalArgumentException("You have " + numberOfTabs + " tabs.");
         viewPager.setAdapter(new PagerAdapter(fragmentManager, fragments));
 
         tabLayout.setupWithViewPager(viewPager);
@@ -191,12 +261,11 @@ public class SpaceTabLayout extends RelativeLayout {
                 new ViewTreeObserver.OnGlobalLayoutListener() {
                     @Override
                     public void onGlobalLayout() {
-                        tabSize.add(leftTab.getCustomView().getWidth());
-                        tabSize.add(centerTab.getCustomView().getWidth());
-                        tabSize.add(rightTab.getCustomView().getWidth());
+                        tabSize.add(tabOne.getCustomView().getWidth());
                         tabSize.add(getWidth());
                         tabSize.add(backgroundImage.getWidth());
 
+                        moveTab(tabSize, startingPosition);
                         if (savedInstanceState != null) moveTab(tabSize, currentPosition);
 
                         if (Build.VERSION.SDK_INT < 16)
@@ -206,19 +275,21 @@ public class SpaceTabLayout extends RelativeLayout {
                 });
 
 
-        viewPager.setCurrentItem(currentPosition);
+        viewPager.setCurrentItem(startingPosition);
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
                 tabs.get(position).getCustomView().setAlpha(positionOffset);
-                if (position < 2) {
+                if (position < numberOfTabs - 1) {
                     tabs.get(position + 1).getCustomView().setAlpha(1 - positionOffset);
                 }
 
+
                 if (!tabSize.isEmpty()) {
-                    if (position < getCurrentPosition()) {
-                        final float endX = -tabSize.get(4) / 2 + getX(position, tabSize) + 42;
-                        final float startX = -tabSize.get(4) / 2 + getX(getCurrentPosition(), tabSize) + 42;
+                    if (position < currentPosition) {
+                        final float endX = -tabSize.get(2) / 2 + getX(position, tabSize) + 42;
+                        final float startX = -tabSize.get(2) / 2 + getX(currentPosition, tabSize) + 42;
 
                         if (!tabSize.isEmpty()) {
                             float a = endX - (positionOffset * (endX - startX));
@@ -227,21 +298,22 @@ public class SpaceTabLayout extends RelativeLayout {
 
                     } else {
                         position++;
-                        final float endX = -tabSize.get(4) / 2 + getX(position, tabSize) + 42;
-                        final float startX = -tabSize.get(4) / 2 + getX(getCurrentPosition(), tabSize) + 42;
+                        final float endX = -tabSize.get(2) / 2 + getX(position, tabSize) + 42;
+                        final float startX = -tabSize.get(2) / 2 + getX(currentPosition, tabSize) + 42;
 
                         float a = startX + (positionOffset * (endX - startX));
                         selectedTabLayout.setX(a);
                     }
                 }
+
             }
 
             @Override
             public void onPageSelected(int position) {
+                for (Tab t : tabs) t.getCustomView().setAlpha(1);
                 tabs.get(position).getCustomView().setAlpha(0);
-                setCurrentPosition(position);
                 moveTab(tabSize, position);
-
+                currentPosition = position;
             }
 
             @Override
@@ -249,38 +321,55 @@ public class SpaceTabLayout extends RelativeLayout {
             }
         });
 
-        leftTab = tabLayout.getTabAt(0);
-        leftTab.setCustomView(R.layout.left_tab_layout);
+        tabOne = tabLayout.getTabAt(0);
+        tabTwo = tabLayout.getTabAt(1);
+        tabThree = tabLayout.getTabAt(2);
+        if (numberOfTabs > 3) tabFour = tabLayout.getTabAt(3);
+        if (numberOfTabs > 4) tabFive = tabLayout.getTabAt(4);
 
-        centerTab = tabLayout.getTabAt(1);
-        centerTab.setCustomView(R.layout.center_tab_layout);
+        if (numberOfTabs == 3 && !iconOnly) {
+            tabOne.setCustomView(R.layout.icon_text_tab_layout);
+            tabTwo.setCustomView(R.layout.icon_text_tab_layout);
+            tabThree.setCustomView(R.layout.icon_text_tab_layout);
 
-        rightTab = tabLayout.getTabAt(2);
-        rightTab.setCustomView(R.layout.right_tab_layout);
+            tabs.add(tabOne);
+            tabs.add(tabTwo);
+            tabs.add(tabThree);
 
-        tabs.add(leftTab);
-        tabs.add(centerTab);
-        tabs.add(rightTab);
+            tabOneTextView = (TextView) tabOne.getCustomView().findViewById(R.id.tabTextView);
+            tabTwoTextView = (TextView) tabTwo.getCustomView().findViewById(R.id.tabTextView);
+            tabThreeTextView = (TextView) tabThree.getCustomView().findViewById(R.id.tabTextView);
 
-        leftTextView = (TextView) findViewById(R.id.leftTextView);
-        centerTextView = (TextView) findViewById(R.id.centerTextView);
-        rightTextView = (TextView) findViewById(R.id.rightTextView);
+            tabOneImageView = (ImageView) tabOne.getCustomView().findViewById(R.id.tabImageView);
+            tabTwoImageView = (ImageView) tabTwo.getCustomView().findViewById(R.id.tabImageView);
+            tabThreeImageView = (ImageView) tabThree.getCustomView().findViewById(R.id.tabImageView);
 
-        leftImageView = (ImageView) findViewById(R.id.leftImageView);
-        centerImageView = (ImageView) findViewById(R.id.centerImageView);
-        rightImageView = (ImageView) findViewById(R.id.rightImageView);
+        } else {
+
+            tabOne.setCustomView(R.layout.icon_tab_layout);
+            tabTwo.setCustomView(R.layout.icon_tab_layout);
+            tabThree.setCustomView(R.layout.icon_tab_layout);
+            if (numberOfTabs > 3) tabFour.setCustomView(R.layout.icon_tab_layout);
+            if (numberOfTabs > 4) tabFive.setCustomView(R.layout.icon_tab_layout);
+
+            tabs.add(tabOne);
+            tabs.add(tabTwo);
+            tabs.add(tabThree);
+            if (numberOfTabs > 3) tabs.add(tabFour);
+            if (numberOfTabs > 4) tabs.add(tabFive);
+
+            tabOneImageView = (ImageView) tabOne.getCustomView().findViewById(R.id.tabImageView);
+            tabTwoImageView = (ImageView) tabTwo.getCustomView().findViewById(R.id.tabImageView);
+            tabThreeImageView = (ImageView) tabThree.getCustomView().findViewById(R.id.tabImageView);
+            if (numberOfTabs > 3)
+                tabFourImageView = (ImageView) tabFour.getCustomView().findViewById(R.id.tabImageView);
+            if (numberOfTabs > 4)
+                tabFiveImageView = (ImageView) tabFive.getCustomView().findViewById(R.id.tabImageView);
+        }
+
 
         selectedTabLayout.bringToFront();
         tabLayout.setSelectedTabIndicatorHeight(0);
-
-        actionButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(getContext(), "hei", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-
         setAttrs();
     }
 
@@ -290,17 +379,21 @@ public class SpaceTabLayout extends RelativeLayout {
 
         setButtonColor(defaultButtonColor);
 
-        setLeftTextColor(defaultTextColor);
-        setCenterTextColor(defaultTextColor);
-        setRightTextColor(defaultTextColor);
+        if (numberOfTabs == 3 && !iconOnly) {
+            if (left_text != null) setTabOneText(left_text);
+            if (center_text != null) setTabTwoText(center_text);
+            if (right_text != null) setTabThreeText(right_text);
 
-        setLeftIcon(defaultLeftButtonIcon);
-        setCenterIcon(defaultCenterButtonIcon);
-        setRightIcon(defaultRightButtonIcon);
+            setTabOneTextColor(defaultTextColor);
+            setTabTwoTextColor(defaultTextColor);
+            setTabThreeTextColor(defaultTextColor);
+        }
 
-        if (left_text != null) setLeftText(left_text);
-        if (center_text != null) setCenterText(center_text);
-        if (right_text != null) setRightText(right_text);
+        setTabOneIcon(defaultTabOneButtonIcon);
+        setTabTwoIcon(defaultTabTwoButtonIcon);
+        setTabThreeIcon(defaultTabThreeButtonIcon);
+        if (numberOfTabs > 3) setTabFourIcon(defaultTabFourButtonIcon);
+        if (numberOfTabs > 4) setTabFiveIcon(defaultTabFiveButtonIcon);
     }
 
     public void saveState(Bundle outState) {
@@ -309,20 +402,28 @@ public class SpaceTabLayout extends RelativeLayout {
 
     private void moveTab(List<Integer> tabSize, int position) {
         if (!tabSize.isEmpty()) {
-            float backgroundX = -tabSize.get(4) / 2 + getX(position, tabSize) + 42;
+            float backgroundX = -tabSize.get(2) / 2 + getX(position, tabSize) + 42;
             selectedTabLayout.setX(backgroundX);
             switch (position) {
                 case 0:
-                    actionButton.setImageDrawable(defaultLeftButtonIcon);
-                    actionButton.setOnClickListener(leftActionOnClickListener);
+                    actionButton.setImageDrawable(defaultTabOneButtonIcon);
+                    actionButton.setOnClickListener(tabOneOnClickListener);
                     break;
                 case 1:
-                    actionButton.setImageDrawable(defaultCenterButtonIcon);
-                    actionButton.setOnClickListener(centerActionOnClickListener);
+                    actionButton.setImageDrawable(defaultTabTwoButtonIcon);
+                    actionButton.setOnClickListener(tabTwoOnClickListener);
                     break;
                 case 2:
-                    actionButton.setImageDrawable(defaultRightButtonIcon);
-                    actionButton.setOnClickListener(rightActionOnClickListener);
+                    actionButton.setImageDrawable(defaultTabThreeButtonIcon);
+                    actionButton.setOnClickListener(tabThreeOnClickListener);
+                    break;
+                case 3:
+                    actionButton.setImageDrawable(defaultTabFourButtonIcon);
+                    actionButton.setOnClickListener(tabFourOnClickListener);
+                    break;
+                case 4:
+                    actionButton.setImageDrawable(defaultTabFiveButtonIcon);
+                    actionButton.setOnClickListener(tabFiveOnClickListener);
                     break;
             }
         }
@@ -330,19 +431,34 @@ public class SpaceTabLayout extends RelativeLayout {
 
     private float getX(int position, List<Integer> sizesList) {
         if (!sizesList.isEmpty()) {
-            float margin = (sizesList.get(3) - 3 * sizesList.get(0)) / 6;
-            float tabSize = sizesList.get(0);
+            float tabWidth = sizesList.get(0);
+
+            float numberOfMargins = 2 * numberOfTabs;
+            float itemsWidth = (int) (numberOfTabs * tabWidth);
+            float marginsWidth = sizesList.get(1) - itemsWidth;
+
+            float margin = marginsWidth / numberOfMargins;
+
+            //TODO: this is a magic number
+            float half = 42;
+
 
             float x = 0;
             switch (position) {
                 case 0:
-                    x = tabSize / 2 + margin - 42;
+                    x = tabWidth / 2 + margin - half;
                     break;
                 case 1:
-                    x = tabSize * 3 / 2 + 3 * margin - 42;
+                    x = tabWidth * 3 / 2 + 3 * margin - half;
                     break;
                 case 2:
-                    x = tabSize * 5 / 2 + 5 * margin - 42;
+                    x = tabWidth * 5 / 2 + 5 * margin - half;
+                    break;
+                case 3:
+                    x = tabWidth * 7 / 2 + 7 * margin - half;
+                    break;
+                case 4:
+                    x = tabWidth * 9 / 2 + 9 * margin - half;
                     break;
             }
             return x;
@@ -350,8 +466,9 @@ public class SpaceTabLayout extends RelativeLayout {
         return 0;
     }
 
+    //TODO: get this working :))
     private void setCurrentPosition(int currentPosition) {
-        this.currentPosition = currentPosition;
+
     }
 
     /**
@@ -372,81 +489,62 @@ public class SpaceTabLayout extends RelativeLayout {
      */
     @Override
     public void setOnClickListener(OnClickListener l) {
-        setLeftActionOnClickListener(l);
-        setCenterActionOnClickListener(l);
-        setRightActionOnClickListener(l);
+        setTabOneOnClickListener(l);
+        setTabTwoOnClickListener(l);
+        setTabThreeOnClickListener(l);
+        if (numberOfTabs > 3) setTabFourOnClickListener(l);
+        if (numberOfTabs > 4) setTabFiveOnClickListener(l);
     }
 
 
-    public View.OnClickListener getRightActionOnClickListener() {
-        return rightActionOnClickListener;
+    /***********************************************************************************************
+     * getters and setters for the OnClickListeners of each tab position
+     **********************************************************************************************/
+    public OnClickListener getTabOneOnClickListener() {
+        return tabOneOnClickListener;
     }
 
-    public void setRightActionOnClickListener(View.OnClickListener rightActionOnClickListener) {
-        this.rightActionOnClickListener = rightActionOnClickListener;
+    public OnClickListener getTabTwoOnClickListener() {
+        return tabTwoOnClickListener;
     }
 
-    public View.OnClickListener getLeftActionOnClickListener() {
-        return leftActionOnClickListener;
+    public OnClickListener getTabThreeOnClickListener() {
+        return tabThreeOnClickListener;
     }
 
-    public void setLeftActionOnClickListener(View.OnClickListener leftActionOnClickListener) {
-        this.leftActionOnClickListener = leftActionOnClickListener;
+    public OnClickListener getTabFourOnClickListener() {
+        return tabFourOnClickListener;
     }
 
-    public View.OnClickListener getCenterActionOnClickListener() {
-        return centerActionOnClickListener;
+    public OnClickListener getTabFiveOnClickListener() {
+        return tabFiveOnClickListener;
     }
 
-    public void setCenterActionOnClickListener(View.OnClickListener centerActionOnClickListener) {
-        this.centerActionOnClickListener = centerActionOnClickListener;
+    public void setTabOneOnClickListener(OnClickListener l) {
+        tabOneOnClickListener = l;
     }
 
-    /**
-     * If you want to make calls specific to the FloatingActionButton
-     *
-     * @return the Floating Action Button of the layout
-     */
-    public FloatingActionButton getButton() {
-        return actionButton;
+    public void setTabTwoOnClickListener(OnClickListener l) {
+        tabTwoOnClickListener = l;
     }
 
-    public View getLeftView() {
-        return leftTab.getCustomView();
+    public void setTabThreeOnClickListener(OnClickListener l) {
+        tabThreeOnClickListener = l;
     }
 
-    public void setLeftView(View leftView) {
-        leftTab.setCustomView(leftView);
+    public void setTabFourOnClickListener(OnClickListener l) {
+        if (numberOfTabs > 3) tabFourOnClickListener = l;
+        else throw new IllegalArgumentException("You have " + numberOfTabs + " tabs.");
     }
 
-    public void setLeftView(@LayoutRes int leftLayout) {
-        leftTab.setCustomView(leftLayout);
+    public void setTabFiveOnClickListener(OnClickListener l) {
+        if (numberOfTabs > 4) tabFourOnClickListener = l;
+        else throw new IllegalArgumentException("You have " + numberOfTabs + " tabs.");
     }
 
-    public View getCenterView() {
-        return centerTab.getCustomView();
-    }
-
-    public void setCenterView(View centerView) {
-        centerTab.setCustomView(centerView);
-    }
-
-    public void setCenterView(@LayoutRes int centerLayout) {
-        leftTab.setCustomView(centerLayout);
-    }
-
-    public View getRightView() {
-        return rightTab.getCustomView();
-    }
-
-    public void setRightView(View rightView) {
-        rightTab.setCustomView(rightView);
-    }
-
-    public void setRightView(@LayoutRes int rightLayout) {
-        rightTab.setCustomView(rightLayout);
-    }
-
+    /***********************************************************************************************
+     * Tab and Views getters, setters and customization for them
+     **********************************************************************************************/
     public View getTabLayout() {
         return parentLayout;
     }
@@ -462,73 +560,211 @@ public class SpaceTabLayout extends RelativeLayout {
         backgroundImage2.setImageDrawable(image2);
     }
 
+    public FloatingActionButton getButton() {
+        return actionButton;
+    }
 
     public void setButtonColor(@ColorInt int backgroundColor) {
         actionButton.setBackgroundTintList(ColorStateList.valueOf(backgroundColor));
     }
 
 
-    public void setLeftIcon(@DrawableRes int leftButtonIcon) {
-        this.defaultLeftButtonIcon = context.getResources().getDrawable(leftButtonIcon);
-        leftImageView.setImageResource(leftButtonIcon);
+    public View getTabOneView() {
+        return tabOne.getCustomView();
     }
 
-    public void setCenterIcon(@DrawableRes int centerButtonIcon) {
-        this.defaultCenterButtonIcon = context.getResources().getDrawable(centerButtonIcon);
-        centerImageView.setImageResource(centerButtonIcon);
+    public View getTabTwoView() {
+        return tabTwo.getCustomView();
     }
 
-    public void setRightIcon(@DrawableRes int rightButtonIcon) {
-        this.defaultRightButtonIcon = context.getResources().getDrawable(rightButtonIcon);
-        rightImageView.setImageResource(rightButtonIcon);
+    public View getTabThreeView() {
+        return tabThree.getCustomView();
     }
 
-    public void setLeftIcon(Drawable leftButtonIcon) {
-        leftImageView.setImageDrawable(leftButtonIcon);
+    public View getTabFourView() {
+        if (numberOfTabs > 3) return tabFour.getCustomView();
+        else throw new IllegalArgumentException("You have " + numberOfTabs + " tabs.");
     }
 
-    public void setCenterIcon(Drawable centerButtonIcon) {
-        centerImageView.setImageDrawable(centerButtonIcon);
+    public View getTabFiveView() {
+        if (numberOfTabs > 4) return tabFive.getCustomView();
+        else throw new IllegalArgumentException("You have " + numberOfTabs + " tabs.");
     }
 
-    public void setRightIcon(Drawable rightButtonIcon) {
-        rightImageView.setImageDrawable(rightButtonIcon);
+
+    public void setTabOneView(View tabOneView) {
+        tabOne.setCustomView(tabOneView);
     }
 
-    public void setLeftText(String leftText) {
-        leftTextView.setText(leftText);
+    public void setTabOneView(@LayoutRes int tabOneLayout) {
+        tabOne.setCustomView(tabOneLayout);
     }
 
-    public void setCenterText(String centerText) {
-        centerTextView.setText(centerText);
+    public void setTabTwoView(View tabTwoView) {
+        tabTwo.setCustomView(tabTwoView);
     }
 
-    public void setRightText(String rightText) {
-        rightTextView.setText(rightText);
+    public void setTabTwoView(@LayoutRes int tabTwoLayout) {
+        tabOne.setCustomView(tabTwoLayout);
     }
 
-    public void setLeftText(@StringRes int leftText) {
-        leftTextView.setText(leftText);
+    public void setTabThreeView(View tabThreeView) {
+        tabThree.setCustomView(tabThreeView);
     }
 
-    public void setCenterText(@StringRes int centerText) {
-        centerTextView.setText(centerText);
+    public void setTabThreeView(@LayoutRes int tabThreeLayout) {
+        tabThree.setCustomView(tabThreeLayout);
     }
 
-    public void setRightText(@StringRes int rightText) {
-        rightTextView.setText(rightText);
+    public void setTabFourView(View tabFourView) {
+        if (numberOfTabs > 3) tabFour.setCustomView(tabFourView);
+        else throw new IllegalArgumentException("You have " + numberOfTabs + " tabs.");
     }
 
-    public void setLeftTextColor(@ColorInt int leftText) {
-        leftTextView.setTextColor(leftText);
+    public void setTabFourView(@LayoutRes int tabFourLayout) {
+        if (numberOfTabs > 3) tabFour.setCustomView(tabFourLayout);
+        else throw new IllegalArgumentException("You have " + numberOfTabs + " tabs.");
     }
 
-    public void setCenterTextColor(@ColorInt int centerText) {
-        centerTextView.setTextColor(centerText);
+    public void setTabFiveView(View tabFiveView) {
+        if (numberOfTabs > 4) tabFour.setCustomView(tabFiveView);
+        else throw new IllegalArgumentException("You have " + numberOfTabs + " tabs.");
     }
 
-    public void setRightTextColor(@ColorInt int rightText) {
-        rightTextView.setTextColor(rightText);
+    public void setTabFiveView(@LayoutRes int tabFiveLayout) {
+        if (numberOfTabs > 4) tabFour.setCustomView(tabFiveLayout);
+        else throw new IllegalArgumentException("You have " + numberOfTabs + " tabs.");
+    }
+
+
+    public void setTabOneIcon(@DrawableRes int tabOneIcon) {
+        defaultTabOneButtonIcon = context.getResources().getDrawable(tabOneIcon);
+        tabOneImageView.setImageResource(tabOneIcon);
+    }
+
+    public void setTabOneIcon(Drawable tabOneIcon) {
+        defaultTabOneButtonIcon = tabOneIcon;
+        tabOneImageView.setImageDrawable(tabOneIcon);
+    }
+
+    public void setTabTwoIcon(@DrawableRes int tabTwoIcon) {
+        defaultTabTwoButtonIcon = context.getResources().getDrawable(tabTwoIcon);
+        tabTwoImageView.setImageResource(tabTwoIcon);
+    }
+
+    public void setTabTwoIcon(Drawable tabTwoIcon) {
+        defaultTabTwoButtonIcon = tabTwoIcon;
+        tabTwoImageView.setImageDrawable(tabTwoIcon);
+    }
+
+    public void setTabThreeIcon(@DrawableRes int tabThreeIcon) {
+        defaultTabThreeButtonIcon = context.getResources().getDrawable(tabThreeIcon);
+        tabThreeImageView.setImageResource(tabThreeIcon);
+    }
+
+    public void setTabThreeIcon(Drawable tabThreeIcon) {
+        defaultTabThreeButtonIcon = tabThreeIcon;
+        tabThreeImageView.setImageDrawable(tabThreeIcon);
+    }
+
+    public void setTabFourIcon(@DrawableRes int tabFourIcon) {
+        if (numberOfTabs > 3) {
+            defaultTabFourButtonIcon = context.getResources().getDrawable(tabFourIcon);
+            tabFourImageView.setImageResource(tabFourIcon);
+        } else throw new IllegalArgumentException("You have " + numberOfTabs + " tabs.");
+    }
+
+    public void setTabFourIcon(Drawable tabFourIcon) {
+        if (numberOfTabs > 3) {
+            defaultTabFourButtonIcon = tabFourIcon;
+            tabFourImageView.setImageDrawable(tabFourIcon);
+        } else throw new IllegalArgumentException("You have " + numberOfTabs + " tabs.");
+    }
+
+    public void setTabFiveIcon(@DrawableRes int tabFiveIcon) {
+        if (numberOfTabs > 4) {
+            defaultTabFiveButtonIcon = context.getResources().getDrawable(tabFiveIcon);
+            tabFiveImageView.setImageResource(tabFiveIcon);
+        } else throw new IllegalArgumentException("You have " + numberOfTabs + " tabs.");
+    }
+
+    public void setTabFiveIcon(Drawable tabFiveIcon) {
+        if (numberOfTabs > 4) {
+            defaultTabFiveButtonIcon = tabFiveIcon;
+            tabFiveImageView.setImageDrawable(tabFiveIcon);
+        } else throw new IllegalArgumentException("You have " + numberOfTabs + " tabs.");
+    }
+
+    /***********************************************************************************************
+     * Customization for the TextViews when you have three tabs
+     **********************************************************************************************/
+    public void setTabOneText(String tabOneText) {
+        if (!iconOnly) tabOneTextView.setText(tabOneText);
+        else throw new IllegalArgumentException("You sellected icons only.");
+    }
+
+    public void setTabOneText(@StringRes int tabOneText) {
+        if (!iconOnly) tabOneTextView.setText(tabOneText);
+        else throw new IllegalArgumentException("You sellected icons only.");
+    }
+
+    public void setTabTwoText(String tabTwoText) {
+        if (!iconOnly) tabTwoTextView.setText(tabTwoText);
+        else throw new IllegalArgumentException("You sellected icons only.");
+    }
+
+    public void setTabTwoText(@StringRes int tabTwoText) {
+        if (!iconOnly) tabTwoTextView.setText(tabTwoText);
+        else throw new IllegalArgumentException("You sellected icons only.");
+    }
+
+    public void setTabThreeText(String tabThreeText) {
+        if (!iconOnly) tabThreeTextView.setText(tabThreeText);
+        else throw new IllegalArgumentException("You sellected icons only.");
+
+    }
+
+    public void setTabThreeText(@StringRes int tabThreeText) {
+        if (!iconOnly) tabThreeTextView.setText(tabThreeText);
+        else throw new IllegalArgumentException("You sellected icons only.");
+    }
+
+
+    public void setTabOneTextColor(@ColorInt int tabOneTextColor) {
+        if (!iconOnly) tabOneTextView.setTextColor(tabOneTextColor);
+        else throw new IllegalArgumentException("You sellected icons only.");
+
+    }
+
+    public void setTabOneTextColor(ColorStateList colorStateList) {
+        if (!iconOnly) tabOneTextView.setTextColor(colorStateList);
+        else throw new IllegalArgumentException("You sellected icons only.");
+
+    }
+
+    public void setTabTwoTextColor(@ColorInt int tabTwoTextColor) {
+        if (!iconOnly) tabTwoTextView.setTextColor(tabTwoTextColor);
+        else throw new IllegalArgumentException("You sellected icons only.");
+
+    }
+
+    public void setTabTwoTextColor(ColorStateList colorStateList) {
+        if (!iconOnly) tabTwoTextView.setTextColor(colorStateList);
+        else throw new IllegalArgumentException("You sellected icons only.");
+
+    }
+
+    public void setTabThreeTextColor(@ColorInt int tabThreeTextColor) {
+        if (!iconOnly) tabThreeTextView.setTextColor(tabThreeTextColor);
+        else throw new IllegalArgumentException("You sellected icons only.");
+
+    }
+
+    public void setTabThreeTextColor(ColorStateList colorStateList) {
+        if (!iconOnly) tabThreeTextView.setTextColor(colorStateList);
+        else throw new IllegalArgumentException("You sellected icons only.");
+
+
     }
 
 }

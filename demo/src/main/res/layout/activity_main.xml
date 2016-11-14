@@ -8,12 +8,15 @@
     <android.support.v4.view.ViewPager
         android:id="@+id/viewPager"
         android:layout_width="match_parent"
-        android:layout_height="460dp" />
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="56dp" />
 
     <eu.long1.spacetablayout.SpaceTabLayout
         android:id="@+id/spaceTabLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_behavior="eu.long1.spacetablayout.SpaceTabLayoutBehavior" />
+        app:layout_behavior="eu.long1.spacetablayout.SpaceTabLayoutBehavior"
+        app:number_of_tabs="five"
+        app:starting_position="two" />
 
 </android.support.design.widget.CoordinatorLayout>

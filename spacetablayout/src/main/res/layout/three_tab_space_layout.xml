@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (c) 2016 Lung Razvan
   ~
   ~     Licensed under the Apache License, Version 2.0 (the "License");
@@ -52,14 +51,13 @@
             android:id="@+id/fab"
             android:layout_width="@dimen/action_button_size"
             android:layout_height="@dimen/action_button_size"
-            android:layout_centerInParent="true"
-            android:src="@drawable/ic_center_action" />
+            android:layout_centerInParent="true" />
     </RelativeLayout>
 
     <android.support.design.widget.TabLayout
         android:id="@+id/spaceTab"
         android:layout_width="match_parent"
-        android:layout_height="72dp"
+        android:layout_height="56dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
@@ -68,4 +66,5 @@
         app:tabBackground="@android:color/transparent"
         app:tabGravity="fill"
         app:tabMode="fixed" />
+
 </RelativeLayout>

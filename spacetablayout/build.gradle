@@ -30,7 +30,7 @@ ext {
     siteUrl = 'https://github.com/thelong1EU/SpaceTabLayout'
     gitUrl = 'https://github.com/thelong1EU/SpaceTabLayout.git'
 
-    libraryVersion = '1.0.2'
+    libraryVersion = '1.0.3'
 
     developerId = 'thelong1eu'
     developerName = 'Lung Razvan'

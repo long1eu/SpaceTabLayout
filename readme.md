@@ -1,5 +1,5 @@
 #Synopsis
-This is a custom implementation of a RelativeLayout that you can use along with a ViewPager to navigate between fragments. You can use this library if you want 3 tabs(icon + text).
+This is a custom implementation of a RelativeLayout that you can use along with a ViewPager to navigate between fragments.
 
 ![alt text](/readmeSource/3.gif "Logo Title Text 1")  ![alt text](/readmeSource/4.gif "Logo Title Text 1")  ![alt text](/readmeSource/5.gif "Logo Title Text 1")
 

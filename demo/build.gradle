@@ -2,10 +2,10 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 25
-    buildToolsVersion "25.0.0"
+    buildToolsVersion "25.0.1"
     defaultConfig {
         applicationId "eu.long1.spacebuttombardemo"
-        minSdkVersion 15
+        minSdkVersion 12
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"
@@ -26,9 +26,9 @@ dependencies {
     })
 
     compile project(":spacetablayout")
-    //compile 'eu.long1:spacetablayout:1.0.2'
-    compile 'com.android.support:appcompat-v7:25.0.0'
-    compile 'com.android.support:support-v4:25.0.0'
+    //compile 'eu.long1:spacetablayout:1.0.3'
+    compile 'com.android.support:appcompat-v7:25.0.1'
+    compile 'com.android.support:support-v4:25.0.1'
     testCompile 'junit:junit:4.12'
 }
 

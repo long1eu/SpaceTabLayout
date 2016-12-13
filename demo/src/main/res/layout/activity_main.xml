@@ -16,7 +16,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_behavior="eu.long1.spacetablayout.SpaceTabLayoutBehavior"
-        app:number_of_tabs="five"
-        app:starting_position="three" />
+        app:number_of_tabs="three"
+        app:starting_position="two" />
 
 </android.support.design.widget.CoordinatorLayout>

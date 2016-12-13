@@ -13,7 +13,6 @@
  *     See the License for the specific language governing permissions and
  *     limitations under the License.
  */
-
 apply plugin: 'com.android.library'
 apply plugin: 'maven-publish'
 
@@ -30,7 +29,7 @@ ext {
     siteUrl = 'https://github.com/thelong1EU/SpaceTabLayout'
     gitUrl = 'https://github.com/thelong1EU/SpaceTabLayout.git'
 
-    libraryVersion = '1.0.3'
+    libraryVersion = '1.0.4'
 
     developerId = 'thelong1eu'
     developerName = 'Lung Razvan'
@@ -43,7 +42,7 @@ ext {
 
 android {
     compileSdkVersion 25
-    buildToolsVersion "25.0.0"
+    buildToolsVersion "25.0.1"
 
     defaultConfig {
         minSdkVersion 12
@@ -67,8 +66,8 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile 'com.android.support:appcompat-v7:25.0.0'
-    compile 'com.android.support:design:25.0.0'
+    compile 'com.android.support:appcompat-v7:25.0.1'
+    compile 'com.android.support:design:25.0.1'
 
     testCompile 'junit:junit:4.12'
 }

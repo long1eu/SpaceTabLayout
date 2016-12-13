@@ -107,6 +107,8 @@ public class SpaceTabLayout extends RelativeLayout {
 
     private boolean SCROLL_STATE_DRAGGING = false;
 
+    private static final String CURRENT_POSITION_SAVE_STATE = "buttonPosition";
+
     public SpaceTabLayout(Context context) {
         super(context);
         this.context = context;
@@ -168,7 +170,7 @@ public class SpaceTabLayout extends RelativeLayout {
             } else if (attr == R.styleable.SpaceTabLayout_starting_position) {
                 startingPosition = a.getInt(attr, 0);
                 int test = startingPosition + 1;
-                if (startingPosition == 0 || test > numberOfTabs) {
+                if (test > numberOfTabs) {
                     switch (numberOfTabs) {
                         case 3:
                             startingPosition = 1;
@@ -188,23 +190,23 @@ public class SpaceTabLayout extends RelativeLayout {
                     }
                 } else {
                     switch (startingPosition) {
-                        case 1:
+                        case 0:
                             actionButton.setImageDrawable(defaultTabOneButtonIcon);
                             actionButton.setOnClickListener(tabOneOnClickListener);
                             break;
-                        case 2:
+                        case 1:
                             actionButton.setImageDrawable(defaultTabTwoButtonIcon);
                             actionButton.setOnClickListener(tabTwoOnClickListener);
                             break;
-                        case 3:
+                        case 2:
                             actionButton.setImageDrawable(defaultTabThreeButtonIcon);
                             actionButton.setOnClickListener(tabThreeOnClickListener);
                             break;
-                        case 4:
+                        case 3:
                             actionButton.setImageDrawable(defaultTabFourButtonIcon);
                             actionButton.setOnClickListener(tabFourOnClickListener);
                             break;
-                        case 5:
+                        case 4:
                             actionButton.setImageDrawable(defaultTabFiveButtonIcon);
                             actionButton.setOnClickListener(tabFiveOnClickListener);
                             break;
@@ -247,7 +249,7 @@ public class SpaceTabLayout extends RelativeLayout {
 
             }
         }
-
+        a.recycle();
     }
 
     /**
@@ -275,7 +277,16 @@ public class SpaceTabLayout extends RelativeLayout {
                         tabSize.add(backgroundImage.getWidth());
 
                         moveTab(tabSize, startingPosition);
-                        if (savedInstanceState != null) moveTab(tabSize, currentPosition);
+
+                        if (currentPosition == 0) {
+                            currentPosition = startingPosition;
+                            tabs.get(startingPosition).getCustomView().setAlpha(0);
+                        }
+                        if (savedInstanceState != null) {
+                            currentPosition = savedInstanceState.getInt(CURRENT_POSITION_SAVE_STATE);
+                            moveTab(tabSize, currentPosition);
+                        }
+
 
                         if (Build.VERSION.SDK_INT < 16)
                             getViewTreeObserver().removeGlobalOnLayoutListener(this);
@@ -410,10 +421,12 @@ public class SpaceTabLayout extends RelativeLayout {
         setTabThreeIcon(defaultTabThreeButtonIcon);
         if (numberOfTabs > 3) setTabFourIcon(defaultTabFourButtonIcon);
         if (numberOfTabs > 4) setTabFiveIcon(defaultTabFiveButtonIcon);
+
+
     }
 
     public void saveState(Bundle outState) {
-        outState.putInt("buttonPosition", currentPosition);
+        outState.putInt(CURRENT_POSITION_SAVE_STATE, currentPosition);
     }
 
     private void moveTab(List<Integer> tabSize, int position) {
@@ -441,6 +454,7 @@ public class SpaceTabLayout extends RelativeLayout {
                     actionButton.setImageDrawable(defaultTabFiveButtonIcon);
                     actionButton.setOnClickListener(tabFiveOnClickListener);
                     break;
+
             }
         }
     }
@@ -518,7 +532,7 @@ public class SpaceTabLayout extends RelativeLayout {
 
     /**
      * You can use it, for example, if want to set the same listener to all
-     * button and you can use a switch using this method to identify the
+     * buttons and you can use a switch using this method to identify the
      * button that was pressed.
      *
      * @return the current tab position

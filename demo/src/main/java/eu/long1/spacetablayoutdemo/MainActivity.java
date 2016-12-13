@@ -4,8 +4,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,8 +23,8 @@ public class MainActivity extends AppCompatActivity {
         fragmentList.add(new FragmentA());
         fragmentList.add(new FragmentB());
         fragmentList.add(new FragmentC());
-        fragmentList.add(new FragmentD());
-        fragmentList.add(new FragmentE());
+        //fragmentList.add(new FragmentD());
+        //fragmentList.add(new FragmentE());
 
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewPager);
         tabLayout = (SpaceTabLayout) findViewById(R.id.spaceTabLayout);

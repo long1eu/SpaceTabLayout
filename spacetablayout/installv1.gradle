@@ -1,6 +1,4 @@
-apply plugin: 'com.github.dcendents.android-maven'
-
-group = publishedGroupId                               /*
+/*
  * Copyright (c) 2016 Lung Razvan
  *
  *     Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,7 +12,10 @@ group = publishedGroupId                               /*
  *     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  *     See the License for the specific language governing permissions and
  *     limitations under the License.
- */                               // Maven Group ID for the artifact
+ */
+apply plugin: 'com.github.dcendents.android-maven'
+
+group = publishedGroupId // Maven Group ID for the artifact
 
 install {
     repositories.mavenInstaller {

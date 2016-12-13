@@ -57,7 +57,7 @@ You can see in the image:
 ###Declaring dependencies
 Add this to dependencies brackets in the gradle.build file:
 ```
-compile 'eu.long1:spacetablayout:1.0.3'
+compile 'eu.long1:spacetablayout:1.0.4'
 ```
 
 ###XML implementation

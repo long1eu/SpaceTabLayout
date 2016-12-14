@@ -23,8 +23,8 @@ public class MainActivity extends AppCompatActivity {
         fragmentList.add(new FragmentA());
         fragmentList.add(new FragmentB());
         fragmentList.add(new FragmentC());
-        //fragmentList.add(new FragmentD());
-        //fragmentList.add(new FragmentE());
+        fragmentList.add(new FragmentD());
+        fragmentList.add(new FragmentE());
 
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewPager);
         tabLayout = (SpaceTabLayout) findViewById(R.id.spaceTabLayout);

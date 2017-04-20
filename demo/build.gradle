@@ -27,8 +27,8 @@ dependencies {
 
     compile project(":spacetablayout")
     //compile 'eu.long1:spacetablayout:1.0.4'
-    compile 'com.android.support:appcompat-v7:25.1.0'
-    compile 'com.android.support:support-v4:25.1.0'
+    compile 'com.android.support:appcompat-v7:25.3.1'
+    compile 'com.android.support:support-v4:25.3.1'
     testCompile 'junit:junit:4.12'
 }
 

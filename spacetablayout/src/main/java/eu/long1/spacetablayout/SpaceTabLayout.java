@@ -23,7 +23,8 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
-import android.os.Bundle;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.support.annotation.ColorInt;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.LayoutRes;
@@ -47,9 +48,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 
+@SuppressWarnings("unused")
 public class SpaceTabLayout extends RelativeLayout {
-
-    private Context context;
 
     private TabLayout tabLayout;
 
@@ -111,27 +111,23 @@ public class SpaceTabLayout extends RelativeLayout {
 
     public SpaceTabLayout(Context context) {
         super(context);
-        this.context = context;
         init();
-
     }
 
     public SpaceTabLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
-        this.context = context;
         init();
         initArrts(attrs);
     }
 
     public SpaceTabLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        this.context = context;
         initArrts(attrs);
         init();
     }
 
     private void init() {
-        LayoutInflater.from(context).inflate(R.layout.three_tab_space_layout, this);
+        LayoutInflater.from(getContext()).inflate(R.layout.three_tab_space_layout, this);
 
         parentLayout = (RelativeLayout) findViewById(R.id.tabLayout);
 
@@ -144,21 +140,21 @@ public class SpaceTabLayout extends RelativeLayout {
 
         tabLayout = (TabLayout) findViewById(R.id.spaceTab);
 
-        defaultTabOneButtonIcon = context.getResources().getDrawable(R.drawable.ic_tab_one);
-        defaultTabTwoButtonIcon = context.getResources().getDrawable(R.drawable.ic_tab_two);
-        defaultTabThreeButtonIcon = context.getResources().getDrawable(R.drawable.ic_tab_three);
-        defaultTabFourButtonIcon = context.getResources().getDrawable(R.drawable.ic_tab_four);
-        defaultTabFiveButtonIcon = context.getResources().getDrawable(R.drawable.ic_tab_five);
+        defaultTabOneButtonIcon = getContext().getResources().getDrawable(R.drawable.ic_tab_one);
+        defaultTabTwoButtonIcon = getContext().getResources().getDrawable(R.drawable.ic_tab_two);
+        defaultTabThreeButtonIcon = getContext().getResources().getDrawable(R.drawable.ic_tab_three);
+        defaultTabFourButtonIcon = getContext().getResources().getDrawable(R.drawable.ic_tab_four);
+        defaultTabFiveButtonIcon = getContext().getResources().getDrawable(R.drawable.ic_tab_five);
 
-        defaultTextColor = ContextCompat.getColor(context, android.R.color.primary_text_dark);
+        defaultTextColor = ContextCompat.getColor(getContext(), android.R.color.primary_text_dark);
 
-        defaultButtonColor = ContextCompat.getColor(context, R.color.colorAccent);
+        defaultButtonColor = ContextCompat.getColor(getContext(), R.color.colorAccent);
 
-        defaultTabColor = ContextCompat.getColor(context, R.color.colorPrimary);
+        defaultTabColor = ContextCompat.getColor(getContext(), R.color.colorPrimary);
     }
 
     private void initArrts(AttributeSet attrs) {
-        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.SpaceTabLayout);
+        TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.SpaceTabLayout);
         for (int i = 0; i < a.getIndexCount(); ++i) {
             int attr = a.getIndex(i);
             if (attr == R.styleable.SpaceTabLayout_number_of_tabs) {
@@ -213,13 +209,13 @@ public class SpaceTabLayout extends RelativeLayout {
                     }
                 }
             } else if (attr == R.styleable.SpaceTabLayout_tab_color) {
-                defaultTabColor = a.getColor(attr, context.getResources().getIdentifier("colorAccent", "color", context.getPackageName()));
+                defaultTabColor = a.getColor(attr, getContext().getResources().getIdentifier("colorAccent", "color", getContext().getPackageName()));
 
             } else if (attr == R.styleable.SpaceTabLayout_button_color) {
-                defaultButtonColor = a.getColor(attr, context.getResources().getIdentifier("colorPrimary", "color", context.getPackageName()));
+                defaultButtonColor = a.getColor(attr, getContext().getResources().getIdentifier("colorPrimary", "color", getContext().getPackageName()));
 
             } else if (attr == R.styleable.SpaceTabLayout_text_color) {
-                defaultTextColor = a.getColor(attr, ContextCompat.getColor(context, android.R.color.primary_text_dark));
+                defaultTextColor = a.getColor(attr, ContextCompat.getColor(getContext(), android.R.color.primary_text_dark));
 
             } else if (attr == R.styleable.SpaceTabLayout_icon_one) {
                 defaultTabOneButtonIcon = a.getDrawable(attr);
@@ -256,12 +252,11 @@ public class SpaceTabLayout extends RelativeLayout {
      * This will initialize the View and the ViewPager to properly display
      * the fragments from the list.
      *
-     * @param viewPager          where you want the fragments to show
-     * @param fragmentManager    needed for the fragment transactions
-     * @param fragments          fragments to be displayed
-     * @param savedInstanceState used to save the current position
+     * @param viewPager       where you want the fragments to show
+     * @param fragmentManager needed for the fragment transactions
+     * @param fragments       fragments to be displayed
      */
-    public void initialize(ViewPager viewPager, FragmentManager fragmentManager, List<Fragment> fragments, final Bundle savedInstanceState) {
+    public void initialize(ViewPager viewPager, FragmentManager fragmentManager, List<Fragment> fragments) {
         if (numberOfTabs < fragments.size() || numberOfTabs > fragments.size())
             throw new IllegalArgumentException("You have " + numberOfTabs + " tabs.");
         viewPager.setAdapter(new PagerAdapter(fragmentManager, fragments));
@@ -281,12 +276,7 @@ public class SpaceTabLayout extends RelativeLayout {
                         if (currentPosition == 0) {
                             currentPosition = startingPosition;
                             tabs.get(startingPosition).getCustomView().setAlpha(0);
-                        }
-                        if (savedInstanceState != null) {
-                            currentPosition = savedInstanceState.getInt(CURRENT_POSITION_SAVE_STATE);
-                            moveTab(tabSize, currentPosition);
-                        }
-
+                        } else moveTab(tabSize, currentPosition);
 
                         if (Build.VERSION.SDK_INT < 16)
                             getViewTreeObserver().removeGlobalOnLayoutListener(this);
@@ -299,7 +289,6 @@ public class SpaceTabLayout extends RelativeLayout {
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
                 if (SCROLL_STATE_DRAGGING) {
                     tabs.get(position).getCustomView().setAlpha(positionOffset);
                     if (position < numberOfTabs - 1) {
@@ -339,7 +328,6 @@ public class SpaceTabLayout extends RelativeLayout {
             @Override
             public void onPageScrollStateChanged(int state) {
                 SCROLL_STATE_DRAGGING = state == ViewPager.SCROLL_STATE_DRAGGING;
-
                 if (state == ViewPager.SCROLL_STATE_SETTLING) {
                     for (Tab t : tabs) t.getCustomView().setAlpha(1);
                     tabs.get(currentPosition).getCustomView().setAlpha(0);
@@ -394,7 +382,6 @@ public class SpaceTabLayout extends RelativeLayout {
                 tabFiveImageView = (ImageView) tabFive.getCustomView().findViewById(R.id.tabImageView);
         }
 
-
         selectedTabLayout.bringToFront();
         tabLayout.setSelectedTabIndicatorHeight(0);
         setAttrs();
@@ -421,18 +408,11 @@ public class SpaceTabLayout extends RelativeLayout {
         setTabThreeIcon(defaultTabThreeButtonIcon);
         if (numberOfTabs > 3) setTabFourIcon(defaultTabFourButtonIcon);
         if (numberOfTabs > 4) setTabFiveIcon(defaultTabFiveButtonIcon);
-
-
-    }
-
-    public void saveState(Bundle outState) {
-        outState.putInt(CURRENT_POSITION_SAVE_STATE, currentPosition);
     }
 
     private void moveTab(List<Integer> tabSize, int position) {
         if (!tabSize.isEmpty()) {
             float backgroundX = -tabSize.get(2) / 2 + getX(position, tabSize) + 42;
-            selectedTabLayout.setX(backgroundX);
             switch (position) {
                 case 0:
                     actionButton.setImageDrawable(defaultTabOneButtonIcon);
@@ -456,35 +436,8 @@ public class SpaceTabLayout extends RelativeLayout {
                     break;
 
             }
-        }
-    }
 
-    private void moveTabAnimate(List<Integer> tabSize, int position) {
-        if (!tabSize.isEmpty()) {
-            float backgroundX = -tabSize.get(2) / 2 + getX(position, tabSize) + 42;
-            selectedTabLayout.animate().x(backgroundX).setDuration(200);
-            switch (position) {
-                case 0:
-                    actionButton.setImageDrawable(defaultTabOneButtonIcon);
-                    actionButton.setOnClickListener(tabOneOnClickListener);
-                    break;
-                case 1:
-                    actionButton.setImageDrawable(defaultTabTwoButtonIcon);
-                    actionButton.setOnClickListener(tabTwoOnClickListener);
-                    break;
-                case 2:
-                    actionButton.setImageDrawable(defaultTabThreeButtonIcon);
-                    actionButton.setOnClickListener(tabThreeOnClickListener);
-                    break;
-                case 3:
-                    actionButton.setImageDrawable(defaultTabFourButtonIcon);
-                    actionButton.setOnClickListener(tabFourOnClickListener);
-                    break;
-                case 4:
-                    actionButton.setImageDrawable(defaultTabFiveButtonIcon);
-                    actionButton.setOnClickListener(tabFiveOnClickListener);
-                    break;
-            }
+            selectedTabLayout.animate().x(backgroundX).setDuration(100);
         }
     }
 
@@ -523,6 +476,27 @@ public class SpaceTabLayout extends RelativeLayout {
             return x;
         }
         return 0;
+    }
+
+    @Override
+    protected Parcelable onSaveInstanceState() {
+        Parcelable superState = super.onSaveInstanceState();
+        SavedState savedState = new SavedState(superState);
+        savedState.currentPosition = this.currentPosition;
+        return savedState;
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Parcelable state) {
+        if (!(state instanceof SavedState)) {
+            super.onRestoreInstanceState(state);
+            return;
+        }
+
+        SavedState ss = (SavedState) state;
+        super.onRestoreInstanceState(ss.getSuperState());
+
+        this.currentPosition = ss.currentPosition;
     }
 
     //TODO: get this working :))
@@ -610,8 +584,8 @@ public class SpaceTabLayout extends RelativeLayout {
 
     public void setTabColor(@ColorInt int backgroundColor) {
         PorterDuffColorFilter porterDuffColorFilter = new PorterDuffColorFilter(backgroundColor, PorterDuff.Mode.SRC_ATOP);
-        Drawable image = ContextCompat.getDrawable(context, R.drawable.background);
-        Drawable image2 = ContextCompat.getDrawable(context, R.drawable.background2);
+        Drawable image = ContextCompat.getDrawable(getContext(), R.drawable.background);
+        Drawable image2 = ContextCompat.getDrawable(getContext(), R.drawable.background2);
         image.setColorFilter(porterDuffColorFilter);
         image2.setColorFilter(porterDuffColorFilter);
 
@@ -697,7 +671,7 @@ public class SpaceTabLayout extends RelativeLayout {
 
 
     public void setTabOneIcon(@DrawableRes int tabOneIcon) {
-        defaultTabOneButtonIcon = context.getResources().getDrawable(tabOneIcon);
+        defaultTabOneButtonIcon = getContext().getResources().getDrawable(tabOneIcon);
         tabOneImageView.setImageResource(tabOneIcon);
     }
 
@@ -707,7 +681,7 @@ public class SpaceTabLayout extends RelativeLayout {
     }
 
     public void setTabTwoIcon(@DrawableRes int tabTwoIcon) {
-        defaultTabTwoButtonIcon = context.getResources().getDrawable(tabTwoIcon);
+        defaultTabTwoButtonIcon = getContext().getResources().getDrawable(tabTwoIcon);
         tabTwoImageView.setImageResource(tabTwoIcon);
     }
 
@@ -717,7 +691,7 @@ public class SpaceTabLayout extends RelativeLayout {
     }
 
     public void setTabThreeIcon(@DrawableRes int tabThreeIcon) {
-        defaultTabThreeButtonIcon = context.getResources().getDrawable(tabThreeIcon);
+        defaultTabThreeButtonIcon = getContext().getResources().getDrawable(tabThreeIcon);
         tabThreeImageView.setImageResource(tabThreeIcon);
     }
 
@@ -728,7 +702,7 @@ public class SpaceTabLayout extends RelativeLayout {
 
     public void setTabFourIcon(@DrawableRes int tabFourIcon) {
         if (numberOfTabs > 3) {
-            defaultTabFourButtonIcon = context.getResources().getDrawable(tabFourIcon);
+            defaultTabFourButtonIcon = getContext().getResources().getDrawable(tabFourIcon);
             tabFourImageView.setImageResource(tabFourIcon);
         } else throw new IllegalArgumentException("You have " + numberOfTabs + " tabs.");
     }
@@ -742,7 +716,7 @@ public class SpaceTabLayout extends RelativeLayout {
 
     public void setTabFiveIcon(@DrawableRes int tabFiveIcon) {
         if (numberOfTabs > 4) {
-            defaultTabFiveButtonIcon = context.getResources().getDrawable(tabFiveIcon);
+            defaultTabFiveButtonIcon = getContext().getResources().getDrawable(tabFiveIcon);
             tabFiveImageView.setImageResource(tabFiveIcon);
         } else throw new IllegalArgumentException("You have " + numberOfTabs + " tabs.");
     }
@@ -780,7 +754,6 @@ public class SpaceTabLayout extends RelativeLayout {
     public void setTabThreeText(String tabThreeText) {
         if (!iconOnly) tabThreeTextView.setText(tabThreeText);
         else throw new IllegalArgumentException("You selected icons only.");
-
     }
 
     public void setTabThreeText(@StringRes int tabThreeText) {
@@ -792,38 +765,61 @@ public class SpaceTabLayout extends RelativeLayout {
     public void setTabOneTextColor(@ColorInt int tabOneTextColor) {
         if (!iconOnly) tabOneTextView.setTextColor(tabOneTextColor);
         else throw new IllegalArgumentException("You selected icons only.");
-
     }
 
     public void setTabOneTextColor(ColorStateList colorStateList) {
         if (!iconOnly) tabOneTextView.setTextColor(colorStateList);
         else throw new IllegalArgumentException("You selected icons only.");
-
     }
 
     public void setTabTwoTextColor(@ColorInt int tabTwoTextColor) {
         if (!iconOnly) tabTwoTextView.setTextColor(tabTwoTextColor);
         else throw new IllegalArgumentException("You selected icons only.");
-
     }
 
     public void setTabTwoTextColor(ColorStateList colorStateList) {
         if (!iconOnly) tabTwoTextView.setTextColor(colorStateList);
         else throw new IllegalArgumentException("You selected icons only.");
-
     }
 
     public void setTabThreeTextColor(@ColorInt int tabThreeTextColor) {
         if (!iconOnly) tabThreeTextView.setTextColor(tabThreeTextColor);
         else throw new IllegalArgumentException("You selected icons only.");
-
     }
 
     public void setTabThreeTextColor(ColorStateList colorStateList) {
         if (!iconOnly) tabThreeTextView.setTextColor(colorStateList);
         else throw new IllegalArgumentException("You selected icons only.");
-
-
     }
 
+
+    static class SavedState extends BaseSavedState {
+        int currentPosition;
+
+        SavedState(Parcelable superState) {
+            super(superState);
+        }
+
+        private SavedState(Parcel in) {
+            super(in);
+            this.currentPosition = in.readInt();
+        }
+
+        @Override
+        public void writeToParcel(Parcel out, int flags) {
+            super.writeToParcel(out, flags);
+            out.writeInt(this.currentPosition);
+        }
+
+        public static final Parcelable.Creator<SavedState> CREATOR =
+                new Parcelable.Creator<SavedState>() {
+                    public SavedState createFromParcel(Parcel in) {
+                        return new SavedState(in);
+                    }
+
+                    public SavedState[] newArray(int size) {
+                        return new SavedState[size];
+                    }
+                };
+    }
 }

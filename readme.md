@@ -1,11 +1,10 @@
-#Synopsis
+# Synopsis
 This is a custom implementation of a RelativeLayout that you can use along with a ViewPager to navigate between fragments.
 
 ![alt text](/readmeSource/3.gif "Logo Title Text 1")  ![alt text](/readmeSource/4.gif "Logo Title Text 1")  ![alt text](/readmeSource/5.gif "Logo Title Text 1")
 
 
-#Code usage
-
+# Code usage
 You can use this properties in xml for convenience. You can set the number of tabs you want to use and the starting tab position.
 ```xml
         app:number_of_tabs="five"
@@ -46,21 +45,21 @@ You can also use the fallowing methods to customize its appearance and behavior:
 | setTabOneIcon(@DrawableRes int tabOneIcon);               | Set the icon for both the first tab and the Action Button when in the first position.                       |
 | setTabTwoIcon(@DrawableRes int tabTwoIcon);               | Set the icon for both the second tab and the Action Button when in the second position.                     |
 
-#Motivation
+# Motivation
 I get the inspiration from the Google Space app that uses a center Floating Action Button. I liked the idea so much that I though that it would be so nice if we could have this like a TabLayout.
 
 You can see in the image:
 
 ![alt text](/readmeSource/motivation.png "Logo Title Text 1")
 
-#Installation
-###Declaring dependencies
+# Installation
+### Declaring dependencies
 Add this to dependencies brackets in the gradle.build file:
 ```
 compile 'eu.long1:spacetablayout:1.0.4'
 ```
 
-###XML implementation
+### XML implementation
 In your layout just include this. You can customize the Tab here with text, icons, colors...
 ```xml
  <eu.long1.spacetablayout.SpaceTabLayout
@@ -78,12 +77,12 @@ In your layout just include this. You can customize the Tab here with text, icon
         app:icon_four="@drawable/ic_check_black_24dp"
         app:icon_five="@drawable/ic_fingerprint_black_24dp"/>
 ```
-####SnackBar behavior
+#### SnackBar behavior
 If you are using a CoordinatorLayout as the root of your layout you can add this line to proper handle the behavior when a SnackBar is visible. 
 ```xml
  app:layout_behavior="eu.long1.spacetablayout.SpaceTabLayoutBehavior" 
 ```
-####XML Example
+#### XML Example
 ```xml
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -107,7 +106,7 @@ If you are using a CoordinatorLayout as the root of your layout you can add this
 
 </android.support.design.widget.CoordinatorLayout>
 ```
-###Code implementation
+### Code implementation
 In your MainActivity.java you need to initialize the SpaceTabLayout like this:
 
 ```java
@@ -140,7 +139,7 @@ In your MainActivity.java you need to initialize the SpaceTabLayout like this:
             super.onSaveInstanceState(outState);
         }
 ```
-#Issues
+# Issues
 
 If you have an issues with this library, please open a issue here: https://github.com/thelong1EU/SpaceTabLayout/issues and provide enough information to reproduce it. The following information needs to be provided:
 
@@ -151,7 +150,7 @@ If you have an issues with this library, please open a issue here: https://githu
 * Optional: Any screenshot(s) that demonstrate the issue.
 
 
-#License
+# License
     Copyright (c) 2016 Lung Răzvan
 
     Licensed under the Apache License, Version 2.0 (the "License");

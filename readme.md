@@ -1,4 +1,4 @@
-#Not actively maintained, but PRs are welcomed
+# Not actively maintained, but PRs are welcomed
 
 # Synopsis
 This is a custom implementation of a RelativeLayout that you can use along with a ViewPager to navigate between fragments.

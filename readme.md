@@ -35,6 +35,7 @@ You can also use the fallowing methods to customize its appearance and behavior:
 | getTabLayout();                                           | Gives you the base RelativeLayout.                                                                          |
 | setTabColor(@ColorInt int backgroundColor);               | Change the color of the Tab.                                                                                |
 | getCurrentPosition();                                     | Gives you the current tab position.                                                                         |
+| setCurrentPosition();                                     | Set the current position.                                                                         |
 | getButton();                                              | Give you the Floating Action Button View.                                                                   |
 | setButtonColor(@ColorInt int backgroundColor);            | Change the color of the Floating Button.                                                                    |
 | setOnClickListener(View.OnClickListener l);               | Set the same OnClickListener to all positions.                                                              |

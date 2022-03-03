@@ -499,10 +499,29 @@ public class SpaceTabLayout extends RelativeLayout {
         this.currentPosition = ss.currentPosition;
     }
 
-    //TODO: get this working :))
-    private void setCurrentPosition(int currentPosition) {
-
-    }
+    public void setCurrentPosition(int currentPosition) {
+        //check if position is valid
+        if (currentPosition >= numberOfTabs)
+            return;
+        switch (currentPosition) {
+            case 0:
+                tabOne.select();
+                break;
+            case 1:
+                tabTwo.select();
+                break;
+            case 2:
+                tabThree.select();
+                break;
+            case 3:
+                tabFour.select();
+                break;
+            case 4:
+                tabFive.select();
+                break;
+            default:
+                tabOne.select();
+        }
 
     /**
      * You can use it, for example, if want to set the same listener to all
